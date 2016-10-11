@@ -1,0 +1,7 @@
+---
+Name: routes
+After: framework/routes#coreroutes
+---
+Director:
+  rules:
+    'poll//$Action!/$ID': 'Poll_Controller'

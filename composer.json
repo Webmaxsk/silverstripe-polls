@@ -1,0 +1,19 @@
+{
+	"name": "webmaxsk/silverstripe-polls",
+	"description": "Silverstripe simple polls module.",
+	"type": "silverstripe-module",
+	"license": "BSD-3-Clause",
+	"keywords": ["silverstripe", "polls"],
+	"authors": [
+		{
+			"name": "Rastislav Brandobur",
+			"email": "brandobur@webmax.sk"
+		}
+	],
+	"extra": {
+		"installer-name": "silverstripe-polls"
+	},
+	"suggest": {
+		"undefinedoffset/sortablegridfield": "*"
+	}
+}
