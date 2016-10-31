@@ -59,7 +59,7 @@ class Poll_Controller extends Page_Controller {
 			if ($this->request->isAjax())
 				return $this->PollDetail();
 			else
-				return $this->renderWith(array('Poll','Page'));
+				return $this->renderWith(array('Poll','Page'),array('PollControllers'=>false));
 		}
 		else
 			return $this->renderWith(array('Poll','Page'),array('PollControllers'=>$this->getPollControllers()));
