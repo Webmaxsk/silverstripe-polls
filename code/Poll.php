@@ -132,7 +132,7 @@ class Poll extends DataObject {
 	}
 
 	public function Link() {
-		return Controller::join_links(Director::baseURL().'poll', 'view', $this->ID);
+		return Controller::join_links(Director::baseURL().'polls', 'view', $this->ID);
 	}
 
 	public function canView($member = null) {

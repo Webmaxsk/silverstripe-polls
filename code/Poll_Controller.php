@@ -59,10 +59,10 @@ class Poll_Controller extends Page_Controller {
 			if ($this->request->isAjax())
 				return $this->PollDetail();
 			else
-				return $this->renderWith(array('Poll','Page'),array('PollControllers'=>false));
+				return $this->renderWith(array('Polls','Page'),array('PollControllers'=>false));
 		}
 		else
-			return $this->renderWith(array('Poll','Page'),array('PollControllers'=>$this->getPollControllers()));
+			return $this->renderWith(array('Polls','Page'),array('PollControllers'=>$this->getPollControllers()));
 	}
 
 	public function PollForm() {
@@ -123,6 +123,6 @@ class Poll_Controller extends Page_Controller {
 		if ($action == null)
 			$action = $this->Action;
 
-		return Controller::join_links(Director::baseURL().'poll', $action, $this->Poll && ($ID = $this->Poll->ID) ? $ID : null);
+		return Controller::join_links(Director::baseURL().'polls', $action, $this->Poll && ($ID = $this->Poll->ID) ? $ID : null);
 	}
 }
