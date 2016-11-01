@@ -2,8 +2,8 @@
 
 class Poll extends DataObject {
 
-	private static $singular_name = "Anketa";
-	private static $plural_name = "Ankety";
+	private static $singular_name = "Poll";
+	private static $plural_name = "Polls";
 
 	protected
 		$controller = null;
@@ -19,7 +19,8 @@ class Poll extends DataObject {
 	);
 
 	private static $many_many = array(
-		'Groups' => 'Group'
+		'Groups' => 'Group',
+		'Members' => 'Member'
 	);
 
 	private static $defaults = array(
@@ -34,7 +35,8 @@ class Poll extends DataObject {
 		'AllowResults',
 		'Title',
 		'Options',
-		'Groups.ID'
+		'Groups.ID',
+		'Members.ID'
 	);
 
 	private static $summary_fields = array(
@@ -44,31 +46,69 @@ class Poll extends DataObject {
 		'AllowResults'
 	);
 
-	private static $field_labels = array(
-		'Status' => 'Viditeľná?',
-		'Active' => 'Aktívna?',
-		'AllowResults' => 'Povoliť výsledky?',
-		'Title' => 'Nadpis',
-		'Options' => 'Možnosti',
-		'SortOrder' => 'Poradie',
-		'Groups' => 'Skupiny',
-		'Groups.ID' => 'Skupiny'
-	);
-
 	private static $default_sort = "SortOrder ASC";
+
+	public function fieldLabels($includerelations = true) {
+		$cacheKey = $this->class . '_' . $includerelations;
+
+		if(!isset(self::$_cache_field_labels[$cacheKey])) {
+			$labels = parent::fieldLabels($includerelations);
+			$labels['Status'] = _t('Poll.STATUS', 'Visible');
+			$labels['Active'] = _t('Poll.ACTIVE', 'Active');
+			$labels['AllowResults'] = _t('Poll.ALLOWRESULTS', 'Show results');
+			$labels['Title'] = _t('Poll.TITLE', 'Title');
+			$labels['Options'] = _t('Poll.OPTIONS', 'Options');
+			$labels['SortOrder'] = _t('Poll.SORTORDER', 'Sort order');
+			$labels['Groups.ID'] = _t('Group.SINGULARNAME', 'Group');
+			$labels['Members.ID'] = _t('Member.SINGULARNAME', 'Member');
+
+			if($includerelations) {
+				$labels['Groups'] = _t('Group.PLURALNAME', 'Groups');
+				$labels['Members'] = _t('Member.PLURALNAME', 'Members');
+			}
+
+			self::$_cache_field_labels[$cacheKey] = $labels;
+		}
+
+		return self::$_cache_field_labels[$cacheKey];
+	}
 
 	public function getCMSFields() {
 		$fields = parent::getCMSFields();
 
-		$fields->changeFieldOrder(array('Status','Active','AllowResults','Title','Options','Groups'));
+		$fields->removeByName('Groups');
+		$fields->removeByName('Members');
 
-		$fields->replaceField('Groups',
+		$fields->addFieldToTab('Root.Main',$fields->dataFieldByName('Title'));
+		$fields->addFieldToTab('Root.Main',$fields->dataFieldByName('Options'));
+
+		$Status = $fields->dataFieldByName('Status');
+		$Active = $fields->dataFieldByName('Active');
+		$AllowResults = $fields->dataFieldByName('AllowResults');
+
+		$fields->removeByName('Status');
+		$fields->removeByName('Active');
+		$fields->removeByName('AllowResults');
+
+		$fields->addFieldToTab('Root.Main',FieldGroup::create(
+			$Status,$Active,$AllowResults
+		)->setTitle(_t('Poll.CONFIGURATION', 'Configuration')));
+
+		$fields->addFieldToTab('Root.Visibility',
 			ListboxField::create('Groups',$this->fieldLabel('Groups'))
 				->setMultiple(true)
 				->setSource(Group::get()->map()->toArray())
 				->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'))
-				->setDescription('Skupiny používateľov, pre ktoré sa anketa zobrazuje. Ak nie sú vybraté skupiny, anketa sa zobrazuje pre všetkých používateľov.')
-		);
+				->setDescription(_t('Poll.GROUPSDESCRIPTION', 'Groups for whom are polls visible.')));
+		$fields->addFieldToTab('Root.Visibility',
+			ListboxField::create('Members',$this->fieldLabel('Members'))
+				->setMultiple(true)
+				->setSource(Member::get()->map()->toArray())
+				->setAttribute('data-placeholder', _t('Poll.MemberPlaceholder', 'Click to select member'))
+				->setDescription(_t('Poll.MEMBERSDESCRIPTION', 'Members for whom are polls visible.')));
+		$fields->addFieldToTab('Root.Visibility',new ReadonlyField('Note',_t('Poll.NOTE', 'Note'),_t('Poll.NOTEDESCRIPTION', 'If there is noone selected, polls will be visible for everyone.')));
+
+		$fields->fieldByName('Root.Visibility')->setTitle(_t('Poll.TABVISIBILITY', 'Visibility'));
 
 		if (class_exists('GridFieldSortableRows'))
 			$fields->removeByName('SortOrder');
@@ -137,6 +177,6 @@ class Poll extends DataObject {
 
 	public function canView($member = null) {
 		return Permission::check('ADMIN','any',$member)
-			|| (($member || ($member = Member::currentUser())) && $this->Status && ((($groups = $this->Groups()) && !$groups->exists()) || $member->inGroups($groups)) && ($this->Active || PollSubmission::get()->filter(array('PollID'=>$this->ID, 'MemberID'=>$member->ID))->limit(1)->first()));
+			|| (($member || ($member = Member::currentUser())) && $this->Status && ((($groups = $this->Groups()) && ($members = $this->Members()) && !$groups->exists() && !$members->exists()) || ($groups->exists() && $member->inGroups($groups)) || ($members->exists() && $members->find('ID',$member->ID))) && ($this->Active || PollSubmission::get()->filter(array('PollID'=>$this->ID, 'MemberID'=>$member->ID))->limit(1)->first()));
 	}
 }

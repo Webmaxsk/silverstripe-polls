@@ -3,8 +3,8 @@
 class PollAdmin extends ModelAdmin {
 
 	private static $managed_models = array('Poll','PollSubmission');
-	private static $url_segment = 'ankety';
-	private static $menu_title = 'Ankety';
+	private static $url_segment = 'polls';
+	private static $menu_title = 'Polls';
 	private static $menu_icon = 'silverstripe-polls/images/poll.png';
 
 	public function getEditForm($id = null, $fields = null) {

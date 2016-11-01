@@ -5,11 +5,15 @@ class ActivePollPage extends Page {
 	private static $allow_images = false;
 	private static $allow_documents = false;
 
-	private static $description = 'Zobrazí všetky aktívne ankety (widgety).';
-	private static $singular_name = "Aktívna anketa";
-	private static $plural_name = "Aktívne ankety";
+	private static $description = "Displays all active polls (widgets)";
+	private static $singular_name = "Active poll";
+	private static $plural_name = "Active polls";
 
 	private static $allowed_children = false;
+
+	public function canCreate($member = null) {
+		return class_exists('Widget') && parent::canCreate($member);
+	}
 }
 
 class ActivePollPage_Controller extends Page_Controller {

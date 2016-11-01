@@ -1,0 +1,36 @@
+sk:
+  ActivePollPage:
+    DESCRIPTION: 'Zobrazí všetky aktívne ankety (widgety).'
+    PLURALNAME: 'Aktívna anketa'
+    SINGULARNAME: 'Aktívne ankety'
+  ArchivedPollPage:
+    DESCRIPTION: 'Zobrazí všetky ukončené ankety (widgety).'
+    PLURALNAME: 'Ukončená anketa'
+    SINGULARNAME: 'Ukončené ankety'
+  Poll:
+    ACTIVE: Aktívna
+    ALLOWRESULTS: Zobraziť výsledky
+    CONFIGURATION: Konfigurácia
+    GROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sa anketa zobrazuje.'
+    MEMBERSDESCRIPTION: 'Členovia, pre ktorých sa anketa zobrazuje.'
+    NOTE: Poznámka
+    NOTEDESCRIPTION: 'Ak nie je nič vybraté, anketa sa zobrazuje pre všetkých členov.'
+    OPTIONS: Možnosti
+    PLURALNAME: Ankety
+    SORTORDER: Poradie zoradenia
+    SINGULARNAME: Anketa
+    STATUS: Viditeľná
+    TABVISIBILITY: Viditeľnosť
+    TITLE: Nadpis
+    MemberPlaceholder: 'Kliknite pre vybratie člena'
+  PollAdmin:
+    MENUTITLE: Ankety
+  PollSubmission:
+    OPTION: Odpoveď
+    PLURALNAME: Hodnotenia
+    SINGULARNAME: Hodnotenie
+    Poll:
+      STATUS: 'Viditeľná anketa'
+      ACTIVE: 'Aktívna anketa'
+  Poll_Controller:
+    VOTE: Hlasovať

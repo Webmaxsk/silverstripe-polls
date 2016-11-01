@@ -2,8 +2,8 @@
 
 class PollSubmission extends DataObject {
 
-	private static $singular_name = "Hodnotenie";
-	private static $plural_name = "Hodnotenia";
+	private static $singular_name = "Submission";
+	private static $plural_name = "Submissions";
 
 	private static $db = array(
 		'Option' => 'Varchar'
@@ -30,17 +30,29 @@ class PollSubmission extends DataObject {
 		'Member.Name'
 	);
 
-	private static $field_labels = array(
-		'Option' => 'Odpoveď',
-		'Poll' => 'Anketa',
-		'Member' => 'Používateľ',
+	public function fieldLabels($includerelations = true) {
+		$cacheKey = $this->class . '_' . $includerelations;
 
-		'Poll.Status' => 'Viditeľná anketa?',
-		'Poll.Active' => 'Aktívna anketa?',
-		'Poll.Title' => 'Anketa',
-		'Member.ID' => 'Používateľ',
-		'Member.Name' => 'Používateľ'
-	);
+		if(!isset(self::$_cache_field_labels[$cacheKey])) {
+			$labels = parent::fieldLabels($includerelations);
+			$labels['Option'] = _t('PollSubmission.OPTION', 'Answer');
+
+			$labels['Poll.Status'] = _t('PollSubmission.Poll.STATUS', 'Visible poll');
+			$labels['Poll.Active'] = _t('PollSubmission.Poll.ACTIVE', 'Active poll');
+			$labels['Poll.Title'] = _t('Poll.SINGULARNAME', 'Poll');
+			$labels['Member.ID'] = _t('Member.SINGULARNAME', 'Member');
+			$labels['Member.Name'] = _t('Member.SINGULARNAME', 'Member');
+
+			if($includerelations) {
+				$labels['Poll'] = _t('Poll.SINGULARNAME', 'Poll');
+				$labels['Member'] = _t('Member.SINGULARNAME', 'Member');
+			}
+
+			self::$_cache_field_labels[$cacheKey] = $labels;
+		}
+
+		return self::$_cache_field_labels[$cacheKey];
+	}
 
 	public function getCMSFields() {
 		$fields = parent::getCMSFields();

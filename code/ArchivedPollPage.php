@@ -5,11 +5,15 @@ class ArchivedPollPage extends Page {
 	private static $allow_images = false;
 	private static $allow_documents = false;
 
-	private static $description = 'Zobrazí všetky ukončené ankety (widgety).';
-	private static $singular_name = "Ukončená anketa";
-	private static $plural_name = "Ukončené ankety";
+	private static $description = "Displays all non active polls (widgets)";
+	private static $singular_name = "Non active poll";
+	private static $plural_name = "Non active polls";
 
 	private static $allowed_children = false;
+
+	public function canCreate($member = null) {
+		return class_exists('Widget') && parent::canCreate($member);
+	}
 }
 
 class ArchivedPollPage_Controller extends Page_Controller {

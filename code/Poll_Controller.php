@@ -72,7 +72,7 @@ class Poll_Controller extends Page_Controller {
 		$fields = $this->Poll->getFrontEndFields();
 
 		$actions = new FieldList(
-			new FormAction('doPoll', 'Hlasovať')
+			new FormAction('doPoll', _t('Poll_Controller.VOTE', 'Vote'))
 		);
 
 		$validator = $this->Poll->getFrontEndValidator();
