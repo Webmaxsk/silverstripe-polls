@@ -74,46 +74,48 @@ class Poll extends DataObject {
 	}
 
 	public function getCMSFields() {
-		$fields = parent::getCMSFields();
+		$self =& $this;
 
-		$fields->removeByName('Groups');
-		$fields->removeByName('Members');
+		$this->beforeUpdateCMSFields(function ($fields) use ($self) {
+			$fields->removeByName('Groups');
+			$fields->removeByName('Members');
 
-		$fields->addFieldToTab('Root.Main',$fields->dataFieldByName('Title'));
-		$fields->addFieldToTab('Root.Main',$fields->dataFieldByName('Options'));
+			$fields->addFieldToTab('Root.Main',$fields->dataFieldByName('Title'));
+			$fields->addFieldToTab('Root.Main',$fields->dataFieldByName('Options'));
 
-		$Status = $fields->dataFieldByName('Status');
-		$Active = $fields->dataFieldByName('Active');
-		$AllowResults = $fields->dataFieldByName('AllowResults');
+			$Status = $fields->dataFieldByName('Status');
+			$Active = $fields->dataFieldByName('Active');
+			$AllowResults = $fields->dataFieldByName('AllowResults');
 
-		$fields->removeByName('Status');
-		$fields->removeByName('Active');
-		$fields->removeByName('AllowResults');
+			$fields->removeByName('Status');
+			$fields->removeByName('Active');
+			$fields->removeByName('AllowResults');
 
-		$fields->addFieldToTab('Root.Main',FieldGroup::create(
-			$Status,$Active,$AllowResults
-		)->setTitle(_t('Poll.CONFIGURATION', 'Configuration')));
+			$fields->addFieldToTab('Root.Main',FieldGroup::create(
+				$Status,$Active,$AllowResults
+			)->setTitle(_t('Poll.CONFIGURATION', 'Configuration')));
 
-		$fields->addFieldToTab('Root.Visibility',
-			ListboxField::create('Groups',$this->fieldLabel('Groups'))
-				->setMultiple(true)
-				->setSource(Group::get()->map()->toArray())
-				->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'))
-				->setDescription(_t('Poll.GROUPSDESCRIPTION', 'Groups for whom are polls visible.')));
-		$fields->addFieldToTab('Root.Visibility',
-			ListboxField::create('Members',$this->fieldLabel('Members'))
-				->setMultiple(true)
-				->setSource(Member::get()->map()->toArray())
-				->setAttribute('data-placeholder', _t('Poll.MemberPlaceholder', 'Click to select member'))
-				->setDescription(_t('Poll.MEMBERSDESCRIPTION', 'Members for whom are polls visible.')));
-		$fields->addFieldToTab('Root.Visibility',new ReadonlyField('Note',_t('Poll.NOTE', 'Note'),_t('Poll.NOTEDESCRIPTION', 'If there is noone selected, polls will be visible for everyone.')));
+			$fields->addFieldToTab('Root.Visibility',
+				ListboxField::create('Groups',$this->fieldLabel('Groups'))
+					->setMultiple(true)
+					->setSource(Group::get()->map()->toArray())
+					->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'))
+					->setDescription(_t('Poll.GROUPSDESCRIPTION', 'Groups for whom are polls visible.')));
+			$fields->addFieldToTab('Root.Visibility',
+				ListboxField::create('Members',$this->fieldLabel('Members'))
+					->setMultiple(true)
+					->setSource(Member::get()->map()->toArray())
+					->setAttribute('data-placeholder', _t('Poll.MemberPlaceholder', 'Click to select member'))
+					->setDescription(_t('Poll.MEMBERSDESCRIPTION', 'Members for whom are polls visible.')));
+			$fields->addFieldToTab('Root.Visibility',new ReadonlyField('Note',_t('Poll.NOTE', 'Note'),_t('Poll.NOTEDESCRIPTION', 'If there is noone selected, polls will be visible for everyone.')));
 
-		$fields->fieldByName('Root.Visibility')->setTitle(_t('Poll.TABVISIBILITY', 'Visibility'));
+			$fields->fieldByName('Root.Visibility')->setTitle(_t('Poll.TABVISIBILITY', 'Visibility'));
 
-		if (class_exists('GridFieldSortableRows'))
-			$fields->removeByName('SortOrder');
+			if (class_exists('GridFieldSortableRows'))
+				$fields->removeByName('SortOrder');
+		});
 
-		return $fields;
+		return parent::getCMSFields();
 	}
 
 	public function getFrontEndFields($params = null) {
@@ -157,7 +159,7 @@ class Poll extends DataObject {
 	public function getMySubmission() {
 		$submission = PollSubmission::get()->filter(array('PollID'=>$this->ID, 'MemberID'=>Member::currentUserID()))->limit(1)->first();
 
-		return $submission ? $submission->Option : "Žiadna odpoveď";
+		return $submission ? $submission->Option : _t('Poll.NOANSWER', 'No answer');
 	}
 
 	public function getName() {
@@ -176,7 +178,7 @@ class Poll extends DataObject {
 	}
 
 	public function canView($member = null) {
-		return Permission::check('ADMIN','any',$member)
-			|| (($member || ($member = Member::currentUser())) && $this->Status && ((($groups = $this->Groups()) && ($members = $this->Members()) && !$groups->exists() && !$members->exists()) || ($groups->exists() && $member->inGroups($groups)) || ($members->exists() && $members->find('ID',$member->ID))) && ($this->Active || PollSubmission::get()->filter(array('PollID'=>$this->ID, 'MemberID'=>$member->ID))->limit(1)->first()));
+		return (($extended = $this->extendedCan(__FUNCTION__, $member))) !== null ? $extended :
+			Permission::check('ADMIN','any',$member) || (($member || ($member = Member::currentUser())) && $this->Status && ((($groups = $this->Groups()) && ($members = $this->Members()) && !$groups->exists() && !$members->exists()) || ($groups->exists() && $member->inGroups($groups)) || ($members->exists() && $members->find('ID',$member->ID))) && ($this->Active || PollSubmission::get()->filter(array('PollID'=>$this->ID, 'MemberID'=>$member->ID))->limit(1)->first()));
 	}
 }

@@ -13,8 +13,10 @@ sk:
     CONFIGURATION: Konfigurácia
     GROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sa anketa zobrazuje.'
     MEMBERSDESCRIPTION: 'Členovia, pre ktorých sa anketa zobrazuje.'
+    NOANSWER: 'Žiadna odpoveď'
     NOTE: Poznámka
     NOTEDESCRIPTION: 'Ak nie je nič vybraté, anketa sa zobrazuje pre všetkých členov.'
+    NUMBEROFVOTES: 'Počet hlasujúcich'
     OPTIONS: Možnosti
     PLURALNAME: Ankety
     SORTORDER: Poradie zoradenia

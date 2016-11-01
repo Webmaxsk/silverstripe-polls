@@ -55,11 +55,13 @@ class PollSubmission extends DataObject {
 	}
 
 	public function getCMSFields() {
-		$fields = parent::getCMSFields();
+		$self =& $this;
 
-		$fields->changeFieldOrder(array('PollID','Option','MemberID'));
+		$this->beforeUpdateCMSFields(function ($fields) use ($self) {
+			$fields->changeFieldOrder(array('PollID','Option','MemberID'));
+		});
 
-		return $fields;
+		return parent::getCMSFields();
 	}
 
 	public function getTitle() {

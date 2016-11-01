@@ -13,7 +13,7 @@
 								<div class="bar" style="width:<% if Percentage=0 %>1px<% else %>$Percentage%<% end_if %>">&nbsp;</div>
 							</li>
 						<% end_loop %>
-						<li>Počet hlasujúcich: <strong>$Total</strong></li>
+						<li><%t Poll.NUMBEROFVOTES "Number of votes" %>: <strong>$Total</strong></li>
 					<% end_with %>
 				<% else %>
 					<li>$MySubmission</li>
