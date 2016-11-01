@@ -38,17 +38,17 @@ class Poll_Controller extends Page_Controller {
 
 				$this->Poll = $poll;
 
-				$this->Title = $this->Poll->Title;
-				$this->MenuTitle = $this->Poll->Title;
-				$this->MetaTitle = $this->Poll->Title;
+				$this->Title = _t('Poll_Controller.POLLTITLE', 'Poll');
+				$this->MenuTitle = _t('Poll_Controller.POLLTITLE', 'Poll');
+				$this->MetaTitle = _t('Poll_Controller.POLLTITLE', 'Poll');
 
 				Requirements::javascript(POLLS_DIR."/javascript/ajax_poll.js");
 			}
 		}
 		else {
-			$this->Title = 'Ankety';
-			$this->MenuTitle = 'Ankety';
-			$this->MetaTitle = 'Ankety';
+			$this->Title = _t('Poll_Controller.POLLSTITLE', 'Polls');
+			$this->MenuTitle = _t('Poll_Controller.POLLSTITLE', 'Polls');
+			$this->MetaTitle = _t('Poll_Controller.POLLSTITLE', 'Polls');
 
 			Requirements::javascript(POLLS_DIR."/javascript/ajax_poll.js");
 		}

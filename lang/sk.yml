@@ -35,4 +35,6 @@ sk:
       STATUS: 'Viditeľná anketa'
       ACTIVE: 'Aktívna anketa'
   Poll_Controller:
+    POLLSTITLE: Ankety
+    POLLTITLE: Anketa
     VOTE: Hlasovať
