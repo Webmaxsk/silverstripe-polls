@@ -2,9 +2,6 @@
 
 class ActivePollPage extends Page {
 
-	private static $allow_images = false;
-	private static $allow_documents = false;
-
 	private static $description = "Displays all active polls (widgets)";
 	private static $singular_name = "Active poll";
 	private static $plural_name = "Active polls";

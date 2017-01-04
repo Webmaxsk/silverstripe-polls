@@ -2,9 +2,6 @@
 
 class ArchivedPollPage extends Page {
 
-	private static $allow_images = false;
-	private static $allow_documents = false;
-
 	private static $description = "Displays all non active polls (widgets)";
 	private static $singular_name = "Non active poll";
 	private static $plural_name = "Non active polls";
