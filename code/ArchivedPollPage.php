@@ -20,12 +20,21 @@ class ArchivedPollPage_Controller extends Page_Controller {
 
 		$widgetItems = PollWidget::get()->filter(array("Enabled"=>1,"Poll.Active"=>0));
 
+		$pollWidgetsIDs = array();
+
 		if ($widgetItems->exists()) {
 			foreach ($widgetItems as $widget) {
-				if ($widget->canView()) {
-					$controller = $widget->getController();
+				$widgetPollID = $widget->PollID;
 
-					$widgetcontrollers->push($controller);
+				if (!array_key_exists($widgetPollID, $pollWidgetsIDs)) {
+					if ($widget->canView()) {
+						$controller = $widget->getController();
+						$controller->init();
+
+						$widgetcontrollers->push($controller);
+					}
+
+					$pollWidgetsIDs[$widgetPollID] = true;
 				}
 			}
 		}
