@@ -107,7 +107,7 @@ class Poll extends DataObject {
 					->setSource(Member::get()->map()->toArray())
 					->setAttribute('data-placeholder', _t('Poll.MemberPlaceholder', 'Click to select member'))
 					->setDescription(_t('Poll.MEMBERSDESCRIPTION', 'Members for whom are polls visible.')));
-			$fields->addFieldToTab('Root.Visibility',new ReadonlyField('Note',_t('Poll.NOTE', 'Note'),_t('Poll.NOTEDESCRIPTION', 'If there is noone selected, polls will be visible for everyone.')));
+			$fields->addFieldToTab('Root.Visibility',new ReadonlyField('Note',_t('Poll.NOTE', 'Note'),_t('Poll.NOTEDESCRIPTION', 'If there is none selected, polls will be visible for everyone.')));
 
 			$fields->fieldByName('Root.Visibility')->setTitle(_t('Poll.TABVISIBILITY', 'Visibility'));
 
