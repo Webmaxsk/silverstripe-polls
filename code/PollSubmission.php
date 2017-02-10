@@ -29,6 +29,8 @@ class PollSubmission extends DataObject {
 		'Option',
 		'Member.Name'
 	);
+	
+	private static $default_sort = "PollID DESC, ID DESC";
 
 	public function fieldLabels($includerelations = true) {
 		$cacheKey = $this->class . '_' . $includerelations;
