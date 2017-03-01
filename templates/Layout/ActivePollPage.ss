@@ -1,5 +1,9 @@
 <div class="content">
-    <% loop Widgets %>
-        $WidgetHolder
-    <% end_loop %>
+	<% if Widgets %>
+		<% loop Widgets %>
+			$WidgetHolder
+		<% end_loop %>
+	<% else %>
+		<p><%t ActivePollPage.NOPOLLS 'There are no polls' %></p>
+	<% end_if %>
 </div>

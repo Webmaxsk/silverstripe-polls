@@ -3,10 +3,12 @@ sk:
     DESCRIPTION: 'Zobrazí všetky aktívne ankety (widgety).'
     PLURALNAME: 'Aktívna anketa'
     SINGULARNAME: 'Aktívne ankety'
+    NOPOLLS: 'Žiadne ankety&hellip;'
   ArchivedPollPage:
     DESCRIPTION: 'Zobrazí všetky ukončené ankety (widgety).'
     PLURALNAME: 'Ukončená anketa'
     SINGULARNAME: 'Ukončené ankety'
+    NOPOLLS: 'Žiadne ankety&hellip;'
   Poll:
     ACTIVE: Aktívna
     ALLOWRESULTS: Zobraziť výsledky
