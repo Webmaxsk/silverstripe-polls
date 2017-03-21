@@ -73,6 +73,16 @@ class Poll extends DataObject {
 		return self::$_cache_field_labels[$cacheKey];
 	}
 
+	public function onBeforeDelete() {
+		parent::onBeforeDelete();
+
+		if (class_exists('Widget')) {
+			$relevantWidgets = PollWidget::get()->filter('PollID',$this->ID);
+			foreach ($relevantWidgets as $widget)
+				$widget->delete();
+		}
+	}
+
 	public function getCMSFields() {
 		$self =& $this;
 
