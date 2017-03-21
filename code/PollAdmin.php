@@ -10,8 +10,12 @@ class PollAdmin extends ModelAdmin {
 	public function getEditForm($id = null, $fields = null) {
 		$form = parent::getEditForm($id, $fields);
 
-		if (($gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) && $gridField->is_a('GridField') && $this->sanitiseClassName($this->modelClass)=='Poll' && class_exists('GridFieldSortableRows'))
-			$gridField->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
+		if (($gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass))) && $gridField->is_a('GridField') && $this->sanitiseClassName($this->modelClass)=='Poll') {
+			if (class_exists('GridFieldSortableRows'))
+				$gridField->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
+			elseif (class_exists('GridFieldOrderableRows'))
+				$gridField->getConfig()->addComponent(new GridFieldOrderableRows('SortOrder'));
+		}
 
 		return $form;
 	}

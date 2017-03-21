@@ -111,7 +111,7 @@ class Poll extends DataObject {
 
 			$fields->fieldByName('Root.Visibility')->setTitle(_t('Poll.TABVISIBILITY', 'Visibility'));
 
-			if (class_exists('GridFieldSortableRows'))
+			if (class_exists('GridFieldSortableRows') || class_exists('GridFieldOrderableRows'))
 				$fields->removeByName('SortOrder');
 		});
 
