@@ -16,6 +16,9 @@ class ArchivedPollPage extends Page {
 class ArchivedPollPage_Controller extends Page_Controller {
 
 	public function Widgets() {
+		if (!class_exists('Widget'))
+			return;
+
 		$widgetcontrollers = new ArrayList();
 
 		$widgetItems = PollWidget::get()->filter(array("Enabled"=>1,"Poll.Active"=>0));
