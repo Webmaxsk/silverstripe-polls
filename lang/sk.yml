@@ -20,6 +20,11 @@ sk:
     NOTEDESCRIPTION: 'Ak nie je nič vybraté, anketa sa zobrazuje pre všetkých členov.'
     NUMBEROFVOTES: 'Počet hlasujúcich'
     OPTIONS: Možnosti
+    PERMISSION_CREATE: 'Vytvoriť anketu'
+    PERMISSION_DELETE: 'Vymazať anketu'
+    PERMISSION_EDIT: 'Upraviť anketu'
+    PERMISSION_VIEW: 'Zobraziť anketu'
+    PERMISSIONS_CATEGORY: 'Oprávnenia v anketách'
     PLURALNAME: Ankety
     SORTORDER: Poradie zoradenia
     SINGULARNAME: Anketa

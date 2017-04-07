@@ -1,6 +1,11 @@
 <?php
 
-class Poll extends DataObject {
+class Poll extends DataObject implements PermissionProvider {
+
+	const VIEW_PERMISSION = 'SAYING_VIEW';
+	const EDIT_PERMISSION = 'SAYING_EDIT';
+	const DELETE_PERMISSION = 'SAYING_DELETE';
+	const CREATE_PERMISSION = 'SAYING_CREATE';
 
 	private static $singular_name = "Poll";
 	private static $plural_name = "Polls";
@@ -187,8 +192,76 @@ class Poll extends DataObject {
 		return Controller::join_links(Director::baseURL().'polls', 'view', $this->ID);
 	}
 
+	public function providePermissions() {
+		return array(
+			self::VIEW_PERMISSION => array(
+				'name' => _t('Poll.PERMISSION_VIEW', 'Read poll'),
+				'category' => _t('Poll.PERMISSIONS_CATEGORY', 'Poll permissions')
+				),
+
+			self::EDIT_PERMISSION => array(
+				'name' => _t('Poll.PERMISSION_EDIT', 'Edit poll'),
+				'category' => _t('Poll.PERMISSIONS_CATEGORY', 'Poll permissions')
+				),
+
+			self::DELETE_PERMISSION => array(
+				'name' => _t('Poll.PERMISSION_DELETE', 'Delete poll'),
+				'category' => _t('Poll.PERMISSIONS_CATEGORY', 'Poll permissions')
+				),
+
+			self::CREATE_PERMISSION => array(
+				'name' => _t('Poll.PERMISSION_CREATE', 'Create poll'),
+				'category' => _t('Poll.PERMISSIONS_CATEGORY', 'Poll permissions')
+				)
+			);
+	}
+
+	private function getMember($member = null) {
+		if (!$member)
+			$member = Member::currentUser();
+
+		if (is_numeric($member))
+			$member = Member::get()->byID($member);
+
+		return $member;
+	}
+
+	private function isPollVisible() {
+		return $this->exists() && $this->Status;
+	}
+
+	private function isMemberInVisibleRelationsOrTheyAreEmpty($member) {
+		return ((($groups = $this->Groups()) && ($members = $this->Members()) && !$groups->exists() && !$members->exists()) || ($groups->exists() && $member->inGroups($groups)) || ($members->exists() && $members->find('ID',$member->ID)));
+	}
+
+	private function isPollActiveOrMemberVoted($member) {
+		return ($this->Active || PollSubmission::get()->filter(array('PollID'=>$this->ID, 'MemberID'=>$member->ID))->limit(1)->first());
+	}
+
+	private function canViewPoll($member) {
+		return Permission::checkMember($member, self::VIEW_PERMISSION)
+		|| ($this->isPollVisible() && $this->isMemberInVisibleRelationsOrTheyAreEmpty($member) && $this->isPollActiveOrMemberVoted($member));
+	}
+
 	public function canView($member = null) {
+		$member = $this->getMember();
+
+		if (!$member || !$member->exists())
+			return false;
+
 		return (($extended = $this->extendedCan(__FUNCTION__, $member))) !== null ? $extended :
-			Permission::check('ADMIN','any',$member) || (($member || ($member = Member::currentUser())) && $this->Status && ((($groups = $this->Groups()) && ($members = $this->Members()) && !$groups->exists() && !$members->exists()) || ($groups->exists() && $member->inGroups($groups)) || ($members->exists() && $members->find('ID',$member->ID))) && ($this->Active || PollSubmission::get()->filter(array('PollID'=>$this->ID, 'MemberID'=>$member->ID))->limit(1)->first()));
+			$this->canViewPoll($member);
+	}
+
+	public function canEdit($member = null) {
+		return !$this->exists() || Permission::checkMember($member, self::EDIT_PERMISSION);
+	}
+
+	public function canDelete($member = null) {
+		return Permission::checkMember($member, self::DELETE_PERMISSION);
+	}
+
+	public function canCreate($member = null) {
+		return Permission::checkMember($member, self::CREATE_PERMISSION);
 	}
 }

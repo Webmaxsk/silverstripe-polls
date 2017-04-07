@@ -7,6 +7,19 @@ class PollAdmin extends ModelAdmin {
 	private static $menu_title = 'Polls';
 	private static $menu_icon = 'silverstripe-polls/images/poll.png';
 
+	public function getList() {
+		$list = parent::getList();
+
+		$IDs = array();
+		foreach ($list as $item)
+			if (!$item->canView())
+				$IDs[] = $item->ID;
+
+		$list = $list->exclude('ID',$IDs);
+
+		return $list;
+	}
+
 	public function getEditForm($id = null, $fields = null) {
 		$form = parent::getEditForm($id, $fields);
 
