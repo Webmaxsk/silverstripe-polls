@@ -1,6 +1,9 @@
 <?php
 
-class PollSubmission extends DataObject {
+class PollSubmission extends DataObject implements PermissionProvider {
+
+	const VIEW_PERMISSION = 'POLLSUBMISSION_VIEW';
+	const DELETE_PERMISSION = 'POLLSUBMISSION_DELETE';
 
 	private static $singular_name = "Submission";
 	private static $plural_name = "Submissions";
@@ -74,11 +77,33 @@ class PollSubmission extends DataObject {
 		return $this->Title;
 	}
 
-	public function canCreate($member = null) {
-		return false;
+	public function providePermissions() {
+		return array(
+			self::VIEW_PERMISSION => array(
+				'name' => _t('PollSubmission.PERMISSION_VIEW', 'Read poll submission'),
+				'category' => _t('Poll.PERMISSIONS_CATEGORY', 'Poll permissions')
+				),
+
+			self::DELETE_PERMISSION => array(
+				'name' => _t('PollSubmission.PERMISSION_DELETE', 'Delete poll submission'),
+				'category' => _t('Poll.PERMISSIONS_CATEGORY', 'Poll permissions')
+				)
+			);
+	}
+
+	public function canView($member = null) {
+		return Permission::checkMember($member, self::VIEW_PERMISSION);
 	}
 
 	public function canEdit($member = null) {
+		return false;
+	}
+
+	public function canDelete($member = null) {
+		return Permission::checkMember($member, self::DELETE_PERMISSION);
+	}
+
+	public function canCreate($member = null) {
 		return false;
 	}
 }

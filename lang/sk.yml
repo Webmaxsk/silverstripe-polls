@@ -38,6 +38,8 @@ sk:
     OPTION: Odpoveď
     PLURALNAME: Hodnotenia
     SINGULARNAME: Hodnotenie
+    PERMISSION_DELETE: 'Vymazať hodnotenie'
+    PERMISSION_VIEW: 'Zobraziť hodnotenie'
     Poll:
       STATUS: 'Viditeľná anketa'
       ACTIVE: 'Aktívna anketa'
