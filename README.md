@@ -1,7 +1,7 @@
 # silverstripe-polls
-- Polls module for SilverStripe. 
-- Poll can be submitted by logged in member only. 
-- Polls can be shown in widget too. 
+- Polls module for SilverStripe.
+- Poll can be submitted by logged in member only.
+- Polls can be shown in widget too.
 - Polls are submitted via AJAX.
 - Special pages for showing all active and archived polls (widgets)
 

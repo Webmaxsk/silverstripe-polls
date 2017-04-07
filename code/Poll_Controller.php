@@ -14,7 +14,7 @@ class Poll_Controller extends Page_Controller {
 	public function __construct($Poll = null) {
 		if ($Poll)
 			$this->Poll = $Poll;
-		
+
 		parent::__construct();
 	}
 
@@ -80,7 +80,7 @@ class Poll_Controller extends Page_Controller {
 		$form = new Form($this, 'PollForm', $fields, $actions, $validator);
 		$form->setHTMLID("Form_PollForm_".$this->Poll->ID);
 		$form->addExtraClass('Form_PollForm');
-		
+
 		$form->setFormAction("{$this->Link('PollForm')}");
 
 		return $form;

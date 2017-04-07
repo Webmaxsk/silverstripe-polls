@@ -14,7 +14,7 @@ class PollSubmission extends DataObject {
 		'Member' => 'Member'
 	);
 
-	private static $searchable_fields = array( 
+	private static $searchable_fields = array(
 		'Poll.Status',
 		'Poll.Active',
 		'Poll.Title',
@@ -29,7 +29,7 @@ class PollSubmission extends DataObject {
 		'Option',
 		'Member.Name'
 	);
-	
+
 	private static $default_sort = "PollID DESC, ID DESC";
 
 	public function fieldLabels($includerelations = true) {

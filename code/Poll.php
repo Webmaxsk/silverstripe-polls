@@ -29,7 +29,7 @@ class Poll extends DataObject {
 		'AllowResults' => '1'
 	);
 
-	private static $searchable_fields = array( 
+	private static $searchable_fields = array(
 		'Status',
 		'Active',
 		'AllowResults',
