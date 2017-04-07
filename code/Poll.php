@@ -2,10 +2,10 @@
 
 class Poll extends DataObject implements PermissionProvider {
 
-	const VIEW_PERMISSION = 'SAYING_VIEW';
-	const EDIT_PERMISSION = 'SAYING_EDIT';
-	const DELETE_PERMISSION = 'SAYING_DELETE';
-	const CREATE_PERMISSION = 'SAYING_CREATE';
+	const VIEW_PERMISSION = 'POLL_VIEW';
+	const EDIT_PERMISSION = 'POLL_EDIT';
+	const DELETE_PERMISSION = 'POLL_DELETE';
+	const CREATE_PERMISSION = 'POLL_CREATE';
 
 	private static $singular_name = "Poll";
 	private static $plural_name = "Polls";
