@@ -48,6 +48,7 @@ sk:
     DESCRIPTION: 'Zobrazí anketu.'
     TITLE: 'Anketa'
   Poll_Controller:
+    NOPOLLS: 'Žiadne ankety&hellip;'
     POLLSTITLE: Ankety
     POLLTITLE: Anketa
     VOTE: Hlasovať
