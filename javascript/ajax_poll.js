@@ -3,7 +3,7 @@ $(document).on('submit', '.Form_PollForm', function(e) {
 
 	e.preventDefault();
 
-	var doPoll = $('#Form_PollForm_action_doPoll');
+	var doPoll = $("#"+form.attr('id')+"_action_doPoll");
 
 	$.ajax(form.attr('action'), {
 		type: "POST",
