@@ -9,7 +9,7 @@ $(document).on('submit', '.Form_PollForm', function(e) {
 		type: "POST",
 		data: form.serialize(),
 		beforeSend: function() {
-			doPoll.attr('value','Prebieha odosielanie...');
+			doPoll.attr('value',ss.i18n._t('Poll.PROCESSING', 'Processing...'));
 			doPoll.attr("disabled", true);
 		},
 		success: function(data) {
