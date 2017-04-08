@@ -43,6 +43,10 @@ sk:
     Poll:
       STATUS: 'Viditeľná anketa'
       ACTIVE: 'Aktívna anketa'
+  PollWidget:
+    CMSTITLE: 'Anketa'
+    DESCRIPTION: 'Zobrazí anketu.'
+    TITLE: 'Anketa'
   Poll_Controller:
     POLLSTITLE: Ankety
     POLLTITLE: Anketa

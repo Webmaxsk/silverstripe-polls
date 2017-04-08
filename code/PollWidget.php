@@ -17,7 +17,7 @@ if (class_exists('Widget')) {
 
 			$this->beforeUpdateCMSFields(function ($fields) use ($self) {
 				$fields->merge(array(
-					DropdownField::create('PollID', 'Poll', Poll::get()->map())
+					DropdownField::create('PollID', singleton('Poll')->i18n_singular_name(), Poll::get()->map())
 				));
 			});
 
