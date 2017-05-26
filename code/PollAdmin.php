@@ -6,7 +6,6 @@ class PollAdmin extends ModelAdmin {
 	private static $url_segment = 'polls';
 	private static $menu_title = 'Polls';
 	private static $menu_icon = 'silverstripe-polls/images/poll.png';
-	private static $menu_priority = -0.48;
 
 	public function getList() {
 		$list = parent::getList();
