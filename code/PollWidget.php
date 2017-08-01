@@ -38,8 +38,8 @@ if (class_exists('Widget')) {
 		public function init() {
 			parent::init();
 
-			Requirements::javascript(POLLS_DIR."/javascript/ajax_poll.js");
 			Requirements::add_i18n_javascript(POLLS_DIR."/javascript/lang");
+			Requirements::javascript(POLLS_DIR."/javascript/ajax_poll.js");
 		}
 
 		public function WidgetHolder() {

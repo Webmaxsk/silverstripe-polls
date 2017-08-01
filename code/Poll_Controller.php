@@ -42,8 +42,8 @@ class Poll_Controller extends Page_Controller {
 				$this->MenuTitle = _t('Poll_Controller.POLLTITLE', 'Poll');
 				$this->MetaTitle = _t('Poll_Controller.POLLTITLE', 'Poll');
 
-				Requirements::javascript(POLLS_DIR."/javascript/ajax_poll.js");
 				Requirements::add_i18n_javascript(POLLS_DIR."/javascript/lang");
+				Requirements::javascript(POLLS_DIR."/javascript/ajax_poll.js");
 			}
 		}
 		else {
@@ -51,8 +51,8 @@ class Poll_Controller extends Page_Controller {
 			$this->MenuTitle = _t('Poll_Controller.POLLSTITLE', 'Polls');
 			$this->MetaTitle = _t('Poll_Controller.POLLSTITLE', 'Polls');
 
-			Requirements::javascript(POLLS_DIR."/javascript/ajax_poll.js");
 			Requirements::add_i18n_javascript(POLLS_DIR."/javascript/lang");
+			Requirements::javascript(POLLS_DIR."/javascript/ajax_poll.js");
 		}
 	}
 
