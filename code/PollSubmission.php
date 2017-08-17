@@ -9,7 +9,7 @@ class PollSubmission extends DataObject implements PermissionProvider {
 	private static $plural_name = "Submissions";
 
 	private static $db = array(
-		'Option' => 'Varchar'
+		'Option' => 'Varchar(255)'
 	);
 
 	private static $has_one = array(
