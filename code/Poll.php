@@ -133,6 +133,14 @@ class Poll extends DataObject implements PermissionProvider {
 		return parent::getCMSFields();
 	}
 
+	public function getCMSValidator() {
+		$requiredFields = new RequiredFields(
+			'Title', 'Options'
+		);
+
+		return $requiredFields;
+	}
+
 	public function getFrontEndFields($params = null) {
 		$fields = new FieldList();
 
