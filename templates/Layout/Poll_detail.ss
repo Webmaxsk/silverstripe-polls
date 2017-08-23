@@ -16,7 +16,7 @@
 						<li><%t Poll.NUMBEROFVOTES "Number of votes" %>: <strong>$Total</strong></li>
 					<% end_with %>
 				<% else %>
-					<li>$MySubmission</li>
+					<li>$CurrentUser.getMySubmission($ID)</li>
 				<% end_if %>
 			</ul>
 		<% end_with %>

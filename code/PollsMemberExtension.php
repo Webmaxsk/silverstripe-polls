@@ -27,4 +27,13 @@ class PollsMemberExtension extends DataExtension {
 			$pollSubmissionsGridFieldConfig->getComponentByType('GridFieldDataColumns')->setDisplayFields($pollSubmissionsDisplayFields);
 		}
 	}
+
+	public function getMySubmission($pollID) {
+		$filter = array(
+			'MemberID' => Member::currentUserID(),
+			'PollID' => $pollID
+		);
+
+		return ($submission = PollSubmission::get()->filter($filter)->limit(1)->first()) ? $submission->Option : _t('Poll.NOANSWER', 'No answer');
+	}
 }

@@ -179,12 +179,6 @@ class Poll extends DataObject implements PermissionProvider {
 		return new ArrayData(array('Total' => $total, 'Results' => $list));
 	}
 
-	public function getMySubmission() {
-		$submission = PollSubmission::get()->filter(array('PollID'=>$this->ID, 'MemberID'=>Member::currentUserID()))->limit(1)->first();
-
-		return $submission ? $submission->Option : _t('Poll.NOANSWER', 'No answer');
-	}
-
 	public function getName() {
 		return $this->Title;
 	}
