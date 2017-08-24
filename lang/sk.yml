@@ -1,19 +1,20 @@
 sk:
   ActivePollPage:
     DESCRIPTION: 'Zobrazí všetky aktívne ankety (widgety).'
+    NOPOLLS: 'Žiadne ankety&hellip;'
     PLURALNAME: 'Aktívna anketa'
     SINGULARNAME: 'Aktívne ankety'
-    NOPOLLS: 'Žiadne ankety&hellip;'
   ArchivedPollPage:
     DESCRIPTION: 'Zobrazí všetky ukončené ankety (widgety).'
+    NOPOLLS: 'Žiadne ankety&hellip;'
     PLURALNAME: 'Ukončená anketa'
     SINGULARNAME: 'Ukončené ankety'
-    NOPOLLS: 'Žiadne ankety&hellip;'
   Poll:
     ACTIVE: Aktívna
     ALLOWRESULTS: Zobraziť výsledky
     CONFIGURATION: Konfigurácia
     GROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sa anketa zobrazuje.'
+    MEMBERPLACEHOLDER: 'Kliknite pre vybratie člena'
     MEMBERSDESCRIPTION: 'Členovia, pre ktorých sa anketa zobrazuje.'
     NOANSWER: 'Žiadna odpoveď'
     NOTE: Poznámka
@@ -26,23 +27,22 @@ sk:
     PERMISSION_VIEW: 'Zobraziť anketu'
     PERMISSIONS_CATEGORY: 'Oprávnenia v anketách'
     PLURALNAME: Ankety
-    SORTORDER: Poradie zoradenia
     SINGULARNAME: Anketa
+    SORTORDER: Poradie zoradenia
     STATUS: Viditeľná
     TABVISIBILITY: Viditeľnosť
     TITLE: Nadpis
-    MemberPlaceholder: 'Kliknite pre vybratie člena'
   PollAdmin:
     MENUTITLE: Ankety
   PollSubmission:
     OPTION: Odpoveď
-    PLURALNAME: Hodnotenia
-    SINGULARNAME: Hodnotenie
     PERMISSION_DELETE: 'Vymazať hodnotenie'
     PERMISSION_VIEW: 'Zobraziť hodnotenie'
-    Poll:
-      STATUS: 'Viditeľná anketa'
+    PLURALNAME: Hodnotenia
+    POLL:
       ACTIVE: 'Aktívna anketa'
+      STATUS: 'Viditeľná anketa'
+    SINGULARNAME: Hodnotenie
   PollWidget:
     CMSTITLE: 'Anketa'
     DESCRIPTION: 'Zobrazí anketu.'

@@ -42,8 +42,8 @@ class PollSubmission extends DataObject implements PermissionProvider {
 			$labels = parent::fieldLabels($includerelations);
 			$labels['Option'] = _t('PollSubmission.OPTION', 'Answer');
 
-			$labels['Poll.Status'] = _t('PollSubmission.Poll.STATUS', 'Visible poll');
-			$labels['Poll.Active'] = _t('PollSubmission.Poll.ACTIVE', 'Active poll');
+			$labels['Poll.Status'] = _t('PollSubmission.POLL.STATUS', 'Visible poll');
+			$labels['Poll.Active'] = _t('PollSubmission.POLL.ACTIVE', 'Active poll');
 			$labels['Poll.Title'] = _t('Poll.SINGULARNAME', 'Poll');
 			$labels['Member.ID'] = _t('Member.SINGULARNAME', 'Member');
 			$labels['Member.Name'] = _t('Member.SINGULARNAME', 'Member');
