@@ -244,7 +244,7 @@ class Poll extends DataObject implements PermissionProvider {
 	}
 
 	public function canView($member = null) {
-		$member = $this->getMember();
+		$member = $this->getMember($member);
 
 		if (!$member || !$member->exists())
 			return false;
