@@ -28,6 +28,10 @@ class PollsMemberExtension extends DataExtension {
 		}
 	}
 
+	public function canViewVotingResults($pollID) {
+		return ($poll = DataObject::get_by_id('Poll', $pollID)) && $poll->exists() && $poll->isAllowedVotingResults(Member::currentUserID());
+	}
+
 	public function getMySubmission($pollID) {
 		$filter = array(
 			'MemberID' => Member::currentUserID(),

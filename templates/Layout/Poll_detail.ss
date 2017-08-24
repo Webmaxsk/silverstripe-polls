@@ -5,7 +5,7 @@
 		<% with Poll %>
 			<strong class="poll-title">$Title</strong>
 			<ul>
-				<% if AllowResults %>
+				<% if CurrentUser.canViewVotingResults($ID) %>
 					<% with Results %>
 						<% loop Results %>
 							<li>

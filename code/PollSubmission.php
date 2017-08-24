@@ -26,9 +26,9 @@ class PollSubmission extends DataObject implements PermissionProvider {
 	);
 
 	private static $summary_fields = array(
+		'Poll.Title',
 		'Poll.Status',
 		'Poll.Active',
-		'Poll.Title',
 		'Option',
 		'Member.Name'
 	);

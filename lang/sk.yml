@@ -10,12 +10,13 @@ sk:
     PLURALNAME: 'Ukončená anketa'
     SINGULARNAME: 'Ukončené ankety'
   Poll:
-    ACTIVE: Aktívna
-    ALLOWRESULTS: Zobraziť výsledky
+    ACTIVE: 'Povoliť hlasovanie'
+    ALLOWEDRESULTSGROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sú výsledky hlasovania povolené.'
+    ALLOWEDRESULTSMEMBERSDESCRIPTION: 'Členovia, pre ktorých sú výsledky hlasovania povolené.'
+    ALLOWRESULTS: Povoliť výsledky hlasovania
     AVAILABILITY: Platnosť
     AVAILABLEFROM: Platnosť od
     AVAILABLETO: Platnosť do
-    CONFIGURATION: Konfigurácia
     FROM: Od
     MEMBERPLACEHOLDER: 'Kliknite pre vybratie člena'
     NOANSWER: 'Žiadna odpoveď'
@@ -29,14 +30,17 @@ sk:
     PLURALNAME: Ankety
     SINGULARNAME: Anketa
     SORTORDER: Poradie zoradenia
-    STATUS: Viditeľná
+    STATUS: 'Zobraziť anketu'
     TABVISIBILITY: Viditeľnosť
+    TABVOTINGRESULTS: 'Výsledky hlasovania'
     TITLE: Nadpis
     TO: Do
     VISIBILITYNOTE: Poznámka
     VISIBILITYNOTEDESCRIPTION: 'Ak nie je nič vybraté, anketa sa zobrazuje pre všetkých členov.'
     VISIBLEGROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sa anketa zobrazuje.'
     VISIBLEMEMBERSDESCRIPTION: 'Členovia, pre ktorých sa anketa zobrazuje.'
+    VOTINGRESULTSNOTE: Poznámka
+    VOTINGRESULTSNOTEDESCRIPTION: 'Ak nie je nič vybraté, výsledky hlasovania sú povolené pre všetkých členov.'
   PollAdmin:
     MENUTITLE: Ankety
   PollSubmission:
@@ -45,7 +49,7 @@ sk:
     PERMISSION_VIEW: 'Zobraziť hodnotenie'
     PLURALNAME: Hodnotenia
     POLL:
-      ACTIVE: 'Aktívna anketa'
+      ACTIVE: 'Povolené hlasovanie'
       STATUS: 'Viditeľná anketa'
     SINGULARNAME: Hodnotenie
   PollWidget:

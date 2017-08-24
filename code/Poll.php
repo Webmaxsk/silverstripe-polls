@@ -27,7 +27,10 @@ class Poll extends DataObject implements PermissionProvider {
 
 	private static $many_many = array(
 		'VisibleGroups' => 'Group',
-		'VisibleMembers' => 'Member'
+		'VisibleMembers' => 'Member',
+
+		'AllowedResultsGroups' => 'Group',
+		'AllowedResultsMembers' => 'Member'
 	);
 
 	private static $defaults = array(
@@ -43,7 +46,9 @@ class Poll extends DataObject implements PermissionProvider {
 		'Title',
 		'Options',
 		'VisibleGroups.ID',
-		'VisibleMembers.ID'
+		'VisibleMembers.ID',
+		'AllowedResultsGroups.ID',
+		'AllowedResultsMembers.ID'
 	);
 
 	private static $summary_fields = array(
@@ -61,9 +66,9 @@ class Poll extends DataObject implements PermissionProvider {
 
 		if(!isset(self::$_cache_field_labels[$cacheKey])) {
 			$labels = parent::fieldLabels($includerelations);
-			$labels['Status'] = _t('Poll.STATUS', 'Visible');
+			$labels['Status'] = _t('Poll.STATUS', 'Show poll');
 			$labels['Active'] = _t('Poll.ACTIVE', 'Active');
-			$labels['AllowResults'] = _t('Poll.ALLOWRESULTS', 'Show results');
+			$labels['AllowResults'] = _t('Poll.ALLOWRESULTS', 'Allow voting results');
 			$labels['Title'] = _t('Poll.TITLE', 'Title');
 			$labels['Options'] = _t('Poll.OPTIONS', 'Options');
 			$labels['AvailableFrom'] = _t('Poll.AVAILABLEFROM', 'Available from');
@@ -72,10 +77,14 @@ class Poll extends DataObject implements PermissionProvider {
 			$labels['SortOrder'] = _t('Poll.SORTORDER', 'Sort order');
 			$labels['VisibleGroups.ID'] = _t('Group.SINGULARNAME', 'Group');
 			$labels['VisibleMembers.ID'] = _t('Member.SINGULARNAME', 'Member');
+			$labels['AllowedResultsGroups.ID'] = _t('Group.SINGULARNAME', 'Group');
+			$labels['AllowedResultsMembers.ID'] = _t('Member.SINGULARNAME', 'Member');
 
 			if($includerelations) {
 				$labels['VisibleGroups'] = _t('Group.PLURALNAME', 'Groups');
 				$labels['VisibleMembers'] = _t('Member.PLURALNAME', 'Members');
+				$labels['AllowedResultsGroups'] = _t('Group.PLURALNAME', 'Groups');
+				$labels['AllowedResultsMembers'] = _t('Member.PLURALNAME', 'Members');
 			}
 
 			self::$_cache_field_labels[$cacheKey] = $labels;
@@ -113,46 +122,59 @@ class Poll extends DataObject implements PermissionProvider {
 		$this->beforeUpdateCMSFields(function ($fields) use ($self) {
 			$fields->removeByName('VisibleGroups');
 			$fields->removeByName('VisibleMembers');
+			$fields->removeByName('AllowedResultsGroups');
+			$fields->removeByName('AllowedResultsMembers');
 
-			$fields->addFieldToTab('Root.Main',$fields->dataFieldByName('Title'));
-			$fields->addFieldToTab('Root.Main',$fields->dataFieldByName('Options'));
+			/* Main */
+			$fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Title'));
+			$fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Options'));
+			$fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Active'));
 
-			$Status = $fields->dataFieldByName('Status');
-			$Active = $fields->dataFieldByName('Active');
-			$AllowResults = $fields->dataFieldByName('AllowResults');
-			$AvailableFrom = $fields->dataFieldByName('AvailableFrom')->setTitle(null);
-			$AvailableTo = $fields->dataFieldByName('AvailableTo')->setTitle(null);
+			$availableFromField = $fields->dataFieldByName('AvailableFrom')->setTitle(null);
+			$availableToField = $fields->dataFieldByName('AvailableTo')->setTitle(null);
 
-			$fields->removeByName('Status');
-			$fields->removeByName('Active');
-			$fields->removeByName('AllowResults');
 			$fields->removeByName('AvailableFrom');
 			$fields->removeByName('AvailableTo');
 
 			$fields->addFieldToTab('Root.Main',FieldGroup::create(
-				$AvailableFrom,$AvailableTo
+				$availableFromField, $availableToField
 			)->setTitle(_t('Poll.AVAILABILITY', 'Availability')));
 
-			$fields->addFieldToTab('Root.Main',FieldGroup::create(
-				$Status,$Active,$AllowResults
-			)->setTitle(_t('Poll.CONFIGURATION', 'Configuration')));
-
-
-			$fields->addFieldToTab('Root.Visibility',
+			/* Visibility */
+			$fields->addFieldsToTab('Root.Visibility', array(
+				$fields->dataFieldByName('Status'),
 				ListboxField::create('VisibleGroups',$this->fieldLabel('VisibleGroups'))
 					->setMultiple(true)
 					->setSource(Group::get()->map()->toArray())
 					->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'))
-					->setDescription(_t('Poll.VISIBLEGROUPSDESCRIPTION', 'Groups for whom is poll visible.')));
-			$fields->addFieldToTab('Root.Visibility',
+					->setDescription(_t('Poll.VISIBLEGROUPSDESCRIPTION', 'Groups for whom is poll visible.')),
 				ListboxField::create('VisibleMembers',$this->fieldLabel('VisibleMembers'))
 					->setMultiple(true)
 					->setSource(Member::get()->map()->toArray())
 					->setAttribute('data-placeholder', _t('Poll.MEMBERPLACEHOLDER', 'Click to select member'))
-					->setDescription(_t('Poll.VISIBLEMEMBERSDESCRIPTION', 'Members for whom is poll visible.')));
-			$fields->addFieldToTab('Root.Visibility',new ReadonlyField('VisibilityNote',_t('Poll.VISIBILITYNOTE', 'Note'),_t('Poll.VISIBILITYNOTEDESCRIPTION', 'If there is none selected, poll will be visible for everyone.')));
+					->setDescription(_t('Poll.VISIBLEMEMBERSDESCRIPTION', 'Members for whom is poll visible.')),
+				new ReadonlyField('VisibilityNote',_t('Poll.VISIBILITYNOTE', 'Note'),_t('Poll.VISIBILITYNOTEDESCRIPTION', 'If there is none selected, poll will be visible for everyone.'))
+			));
 
 			$fields->fieldByName('Root.Visibility')->setTitle(_t('Poll.TABVISIBILITY', 'Visibility'));
+
+			/* Voting results */
+			$fields->addFieldsToTab('Root.VotingResults', array(
+				$fields->dataFieldByName('AllowResults'),
+				ListboxField::create('AllowedResultsGroups',$this->fieldLabel('AllowedResultsGroups'))
+					->setMultiple(true)
+					->setSource(Group::get()->map()->toArray())
+					->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'))
+					->setDescription(_t('Poll.ALLOWEDRESULTSGROUPSDESCRIPTION', 'Groups for whom are voting results allowed.')),
+				ListboxField::create('AllowedResultsMembers',$this->fieldLabel('AllowedResultsMembers'))
+					->setMultiple(true)
+					->setSource(Member::get()->map()->toArray())
+					->setAttribute('data-placeholder', _t('Poll.MEMBERPLACEHOLDER', 'Click to select member'))
+					->setDescription(_t('Poll.ALLOWEDRESULTSMEMBERSDESCRIPTION', 'Members for whom are voting results allowed.')),
+				new ReadonlyField('VotingResultsNote',_t('Poll.VOTINGRESULTSNOTE', 'Note'),_t('Poll.VOTINGRESULTSNOTEDESCRIPTION', 'If there is none selected, voting results will be allowed for everyone.'))
+			));
+
+			$fields->fieldByName('Root.VotingResults')->setTitle(_t('Poll.TABVOTINGRESULTS', 'Voting results'));
 
 			if (class_exists('GridFieldSortableRows') || class_exists('GridFieldOrderableRows'))
 				$fields->removeByName('SortOrder');
@@ -256,12 +278,17 @@ class Poll extends DataObject implements PermissionProvider {
 		return $member;
 	}
 
-	private function isPollVisible() {
-		return $this->exists() && $this->Status;
-	}
+	private function isPollVisible($member) {
+		$visibleGroups = $this->VisibleGroups();
+		$visibleMembers = $this->VisibleMembers();
 
-	private function isMemberInVisibleRelationsOrTheyAreEmpty($member) {
-		return ((($visibleGroups = $this->VisibleGroups()) && ($visibleMembers = $this->VisibleMembers()) && !$visibleGroups->exists() && !$visibleMembers->exists()) || ($visibleGroups->exists() && $member->inGroups($visibleGroups)) || ($visibleMembers->exists() && $visibleMembers->find('ID',$member->ID)));
+		return $this->exists() && $this->Status
+			&& ($member = $this->getMember($member))
+			&& (
+				(!$visibleGroups->exists() && !$visibleMembers->exists())
+				|| ($visibleGroups->exists() && $member->inGroups($visibleGroups))
+				|| ($visibleMembers->exists() && $visibleMembers->find('ID',$member->ID))
+			);
 	}
 
 	public function isPollActive() {
@@ -274,9 +301,22 @@ class Poll extends DataObject implements PermissionProvider {
 		return ($submission = PollSubmission::get()->filter(array('PollID'=>$this->ID, 'MemberID'=>$member->ID))->limit(1)->first()) && $submission->exists();
 	}
 
+	public function isAllowedVotingResults($member) {
+		$allowedResultsGroups = $this->AllowedResultsGroups();
+		$allowedResultsMembers = $this->AllowedResultsMembers();
+
+		return $this->AllowResults
+			&& ($member = $this->getMember($member))
+			&& (
+				(!$allowedResultsGroups->exists() && !$allowedResultsMembers->exists())
+				|| ($allowedResultsGroups->exists() && $member->inGroups($allowedResultsGroups))
+				|| ($allowedResultsMembers->exists() && $allowedResultsMembers->find('ID',$member->ID))
+			);
+	}
+
 	private function canViewPoll($member) {
 		return Permission::checkMember($member, self::VIEW_PERMISSION)
-		|| ($this->isPollVisible() && $this->isMemberInVisibleRelationsOrTheyAreEmpty($member) && ($this->isPollActive() || $this->memberVoted($member)));
+		|| ($this->isPollVisible($member) && ($this->isPollActive() || $this->memberVoted($member)));
 	}
 
 	public function canView($member = null) {
