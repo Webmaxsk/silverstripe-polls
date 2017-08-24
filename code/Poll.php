@@ -26,8 +26,8 @@ class Poll extends DataObject implements PermissionProvider {
 	);
 
 	private static $many_many = array(
-		'Groups' => 'Group',
-		'Members' => 'Member'
+		'VisibleGroups' => 'Group',
+		'VisibleMembers' => 'Member'
 	);
 
 	private static $defaults = array(
@@ -42,8 +42,8 @@ class Poll extends DataObject implements PermissionProvider {
 		'AllowResults',
 		'Title',
 		'Options',
-		'Groups.ID',
-		'Members.ID'
+		'VisibleGroups.ID',
+		'VisibleMembers.ID'
 	);
 
 	private static $summary_fields = array(
@@ -70,12 +70,12 @@ class Poll extends DataObject implements PermissionProvider {
 			$labels['AvailableTo'] = _t('Poll.AVAILABLETO', 'Available to');
 			$labels['ColumnAvailability'] = _t('Poll.AVAILABILITY', 'Availability');
 			$labels['SortOrder'] = _t('Poll.SORTORDER', 'Sort order');
-			$labels['Groups.ID'] = _t('Group.SINGULARNAME', 'Group');
-			$labels['Members.ID'] = _t('Member.SINGULARNAME', 'Member');
+			$labels['VisibleGroups.ID'] = _t('Group.SINGULARNAME', 'Group');
+			$labels['VisibleMembers.ID'] = _t('Member.SINGULARNAME', 'Member');
 
 			if($includerelations) {
-				$labels['Groups'] = _t('Group.PLURALNAME', 'Groups');
-				$labels['Members'] = _t('Member.PLURALNAME', 'Members');
+				$labels['VisibleGroups'] = _t('Group.PLURALNAME', 'Groups');
+				$labels['VisibleMembers'] = _t('Member.PLURALNAME', 'Members');
 			}
 
 			self::$_cache_field_labels[$cacheKey] = $labels;
@@ -111,8 +111,8 @@ class Poll extends DataObject implements PermissionProvider {
 		$self =& $this;
 
 		$this->beforeUpdateCMSFields(function ($fields) use ($self) {
-			$fields->removeByName('Groups');
-			$fields->removeByName('Members');
+			$fields->removeByName('VisibleGroups');
+			$fields->removeByName('VisibleMembers');
 
 			$fields->addFieldToTab('Root.Main',$fields->dataFieldByName('Title'));
 			$fields->addFieldToTab('Root.Main',$fields->dataFieldByName('Options'));
@@ -139,17 +139,17 @@ class Poll extends DataObject implements PermissionProvider {
 
 
 			$fields->addFieldToTab('Root.Visibility',
-				ListboxField::create('Groups',$this->fieldLabel('Groups'))
+				ListboxField::create('VisibleGroups',$this->fieldLabel('VisibleGroups'))
 					->setMultiple(true)
 					->setSource(Group::get()->map()->toArray())
 					->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'))
-					->setDescription(_t('Poll.GROUPSDESCRIPTION', 'Groups for whom are polls visible.')));
+					->setDescription(_t('Poll.VISIBLEGROUPSDESCRIPTION', 'Groups for whom are polls visible.')));
 			$fields->addFieldToTab('Root.Visibility',
-				ListboxField::create('Members',$this->fieldLabel('Members'))
+				ListboxField::create('VisibleMembers',$this->fieldLabel('VisibleMembers'))
 					->setMultiple(true)
 					->setSource(Member::get()->map()->toArray())
 					->setAttribute('data-placeholder', _t('Poll.MemberPlaceholder', 'Click to select member'))
-					->setDescription(_t('Poll.MEMBERSDESCRIPTION', 'Members for whom are polls visible.')));
+					->setDescription(_t('Poll.VISIBLEMEMBERSDESCRIPTION', 'Members for whom are polls visible.')));
 			$fields->addFieldToTab('Root.Visibility',new ReadonlyField('Note',_t('Poll.NOTE', 'Note'),_t('Poll.NOTEDESCRIPTION', 'If there is none selected, polls will be visible for everyone.')));
 
 			$fields->fieldByName('Root.Visibility')->setTitle(_t('Poll.TABVISIBILITY', 'Visibility'));
@@ -261,7 +261,7 @@ class Poll extends DataObject implements PermissionProvider {
 	}
 
 	private function isMemberInVisibleRelationsOrTheyAreEmpty($member) {
-		return ((($groups = $this->Groups()) && ($members = $this->Members()) && !$groups->exists() && !$members->exists()) || ($groups->exists() && $member->inGroups($groups)) || ($members->exists() && $members->find('ID',$member->ID)));
+		return ((($visibleGroups = $this->VisibleGroups()) && ($visibleMembers = $this->VisibleMembers()) && !$visibleGroups->exists() && !$visibleMembers->exists()) || ($visibleGroups->exists() && $member->inGroups($visibleGroups)) || ($visibleMembers->exists() && $visibleMembers->find('ID',$member->ID)));
 	}
 
 	public function isPollActive() {

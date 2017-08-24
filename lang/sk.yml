@@ -16,9 +16,9 @@ sk:
     AVAILABLEFROM: Platnosť od
     AVAILABLETO: Platnosť do
     CONFIGURATION: Konfigurácia
-    GROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sa anketa zobrazuje.'
+    VISIBLEGROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sa anketa zobrazuje.'
     FROM: Od
-    MEMBERSDESCRIPTION: 'Členovia, pre ktorých sa anketa zobrazuje.'
+    VISIBLEMEMBERSDESCRIPTION: 'Členovia, pre ktorých sa anketa zobrazuje.'
     NOANSWER: 'Žiadna odpoveď'
     NOTE: Poznámka
     NOTEDESCRIPTION: 'Ak nie je nič vybraté, anketa sa zobrazuje pre všetkých členov.'
