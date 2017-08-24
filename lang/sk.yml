@@ -17,8 +17,12 @@ sk:
     AVAILABILITY: Platnosť
     AVAILABLEFROM: 'Platnosť od'
     AVAILABLETO: 'Platnosť do'
+    ENABLEMULTISELECT: 'Povoliť výber viacerých možností'
     FROM: Od
+    MINOPTIONSCOUNT: 'Minimálny počet'
+    MAXOPTIONSCOUNT: 'Maximálny počet'
     MEMBERPLACEHOLDER: 'Kliknite pre vybratie člena'
+    MULTIPLEOPTIONSCOUNT: 'Počet viacerých možností'
     NOANSWER: 'Žiadna odpoveď'
     NUMBEROFVOTES: 'Počet hlasujúcich'
     OPTIONS: Možnosti
@@ -61,5 +65,8 @@ sk:
     POLLSTITLE: Ankety
     POLLTITLE: Anketa
     VOTE: Hlasovať
+  Poll_FrontEndValidator:
+    SELECTCORRECTOPTIONSCOUNT: 'Prosím, vyberte aspoň {minCount}, ale nie viac ako {maxCount} možnosti.'
   Poll_Validator:
     INCORRECTDATERANGE: 'Nesprávne poradie dátumov'
+    INCORRECTOPTIONSCOUNTRANGE: 'Nesprávny rozsah výberu minimálneho a maximálneho počtu možností'

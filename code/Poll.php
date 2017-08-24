@@ -17,6 +17,9 @@ class Poll extends DataObject implements PermissionProvider {
 		'Status' => 'Boolean',
 		'Active' => 'Boolean',
 		'AllowResults' => 'Boolean',
+		'EnableMultiselect' => 'Boolean',
+		'MinOptionsCount' => 'Int',
+		'MaxOptionsCount' => 'Int',
 		'Title' => 'Varchar(100)',
 		'Options' => 'Text',
 		'AvailableFrom' => 'Date',
@@ -43,6 +46,7 @@ class Poll extends DataObject implements PermissionProvider {
 		'Status',
 		'Active',
 		'AllowResults',
+		'EnableMultiselect',
 		'Title',
 		'Options',
 		'VisibleGroups.ID',
@@ -69,6 +73,9 @@ class Poll extends DataObject implements PermissionProvider {
 			$labels['Status'] = _t('Poll.STATUS', 'Show poll');
 			$labels['Active'] = _t('Poll.ACTIVE', 'Active');
 			$labels['AllowResults'] = _t('Poll.ALLOWRESULTS', 'Allow voting results');
+			$labels['EnableMultiselect'] = _t('Poll.ENABLEMULTISELECT', 'Enable select multiple options');
+			$labels['MinOptionsCount'] = _t('Poll.MINOPTIONSCOUNT', 'Min count');
+			$labels['MaxOptionsCount'] = _t('Poll.MAXOPTIONSCOUNT', 'Max count');
 			$labels['Title'] = _t('Poll.TITLE', 'Title');
 			$labels['Options'] = _t('Poll.OPTIONS', 'Options');
 			$labels['AvailableFrom'] = _t('Poll.AVAILABLEFROM', 'Available from');
@@ -106,6 +113,12 @@ class Poll extends DataObject implements PermissionProvider {
 		return $availability;
 	}
 
+	public function onBeforeWrite() {
+		parent::onBeforeWrite();
+
+		$this->Options = trim($this->Options);
+	}
+
 	public function onBeforeDelete() {
 		parent::onBeforeDelete();
 
@@ -127,6 +140,24 @@ class Poll extends DataObject implements PermissionProvider {
 
 			/* Main */
 			$fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Title'));
+			$fields->addFieldToTab('Root.Main', $fields->dataFieldByName('EnableMultiselect'));
+
+			$minOptionsCountField = $fields->dataFieldByName('MinOptionsCount');
+			$maxOptionsCountField = $fields->dataFieldByName('MaxOptionsCount');
+
+			$fields->removeByName('MinOptionsCount');
+			$fields->removeByName('MaxOptionsCount');
+
+			$optionsCountField = FieldGroup::create(
+				$minOptionsCountField, $maxOptionsCountField
+			)->setTitle(_t('Poll.MULTIPLEOPTIONSCOUNT', 'Number of multiple options'));
+
+			if (class_exists('DisplayLogicWrapper'))
+				$optionsCountField = DisplayLogicWrapper::create($optionsCountField)
+					->displayIf("EnableMultiselect")->isChecked()->end();
+
+			$fields->addFieldToTab('Root.Main', $optionsCountField);
+
 			$fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Options'));
 			$fields->addFieldToTab('Root.Main', $fields->dataFieldByName('Active'));
 
@@ -194,39 +225,53 @@ class Poll extends DataObject implements PermissionProvider {
 	public function getFrontEndFields($params = null) {
 		$fields = new FieldList();
 
-		$fields->push(new OptionsetField('Option',$this->Title ? $this->Title : "",$this->getOptionsAsArray()));
+		if ($this->EnableMultiselect)
+			$formField = 'CheckboxSetField';
+		else
+			$formField = 'OptionsetField';
+
+		$fields->push($formField::create('Option', $this->Title ?: "", $this->getOptionsAsArray()));
 
 		return $fields;
 	}
 
 	public function getFrontEndValidator() {
-		$validator = new RequiredFields('Option');
+		$required = array();
 
-		return $validator;
+		if (!$this->EnableMultiselect)
+			$required[] = 'Option';
+
+		return new Poll_FrontEndValidator($required);
 	}
 
 	private function getOptionsAsArray() {
-		$moznosti = preg_split("/\r\n|\n|\r/", $this->getField('Options'));
+		$options = preg_split("/\r\n|\n|\r/", $this->getField('Options'));
 
-		return array_combine($moznosti,$moznosti);
+		return array_combine($options, $options);
 	}
 
 	public function getResults() {
-		$submissions = new GroupedList(PollSubmission::get()->filter('PollID',$this->ID));
+		$filter = array(
+			'PollID' => $this->ID,
+			'MemberID:not' => 0
+		);
 
-		$options = $this->getOptionsAsArray();
-		$total = $submissions->Count();
+		$submissions = new GroupedList(PollSubmission::get()->filter($filter));
+
 		$submissionOptions = $submissions->groupBy('Option');
-		$list = new ArrayList();
+		$memberSubmissionsCount = count($submissions->groupBy('MemberID'));
 
-		foreach($options as $option => $pollSubmissions) {
-			$list->push(new ArrayData(array(
+		$results = new ArrayList();
+		$options = $this->getOptionsAsArray();
+
+		foreach ($options as $option) {
+			$results->push(new ArrayData(array(
 				'Option' => $option,
-				'Percentage' => isset($submissionOptions[$option]) ? (int)($submissionOptions[$option]->Count() / $total * 100) : (int)0
+				'Percentage' => isset($submissionOptions[$option]) ? (int)($submissionOptions[$option]->Count() / $memberSubmissionsCount * 100) : (int)0
 			)));
 		}
 
-		return new ArrayData(array('Total' => $total, 'Results' => $list));
+		return new ArrayData(array('Total' => $memberSubmissionsCount, 'Results' => $results));
 	}
 
 	public function getName() {

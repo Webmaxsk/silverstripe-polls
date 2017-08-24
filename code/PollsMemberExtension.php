@@ -32,12 +32,12 @@ class PollsMemberExtension extends DataExtension {
 		return ($poll = DataObject::get_by_id('Poll', $pollID)) && $poll->exists() && $poll->isAllowedVotingResults(Member::currentUserID());
 	}
 
-	public function getMySubmission($pollID) {
+	public function getMySubmissions($pollID) {
 		$filter = array(
 			'MemberID' => Member::currentUserID(),
 			'PollID' => $pollID
 		);
 
-		return ($submission = PollSubmission::get()->filter($filter)->limit(1)->first()) ? $submission->Option : _t('Poll.NOANSWER', 'No answer');
+		return PollSubmission::get()->filter($filter)->sort('ID ASC');
 	}
 }

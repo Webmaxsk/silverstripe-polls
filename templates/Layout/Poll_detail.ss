@@ -15,8 +15,12 @@
 						<% end_loop %>
 						<li><%t Poll.NUMBEROFVOTES "Number of votes" %>: <strong>$Total</strong></li>
 					<% end_with %>
+				<% else_if CurrentUser.getMySubmissions($ID) %>
+					<% loop CurrentUser.getMySubmissions($ID) %>
+						<li>$Option</li>
+					<% end_loop %>
 				<% else %>
-					<li>$CurrentUser.getMySubmission($ID)</li>
+					<li><%t Poll.NOANSWER "No answer" %></li>
 				<% end_if %>
 			</ul>
 		<% end_with %>

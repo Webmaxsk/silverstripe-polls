@@ -89,13 +89,20 @@ class Poll_Controller extends Page_Controller {
 	}
 
 	public function doPoll($data, $form) {
-		$submission = new PollSubmission();
+		$options = isset($data['Option']) ?
+			is_array($data['Option']) ? $data['Option'] : array($data['Option'])
+		:
+			array("");
 
-		$submission->PollID = $this->Poll->ID;
-		$submission->MemberID = Member::currentUserID();
-		$submission->Option = $data['Option'];
+		foreach ($options as $option) {
+			$submission = new PollSubmission();
 
-		$submission->write();
+			$submission->PollID = $this->Poll->ID;
+			$submission->MemberID = Member::currentUserID();
+			$submission->Option = $option;
+
+			$submission->write();
+		}
 
 		if ($this->request->isAjax())
 			return json_encode($this->view()->getValue());
