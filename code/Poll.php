@@ -143,14 +143,14 @@ class Poll extends DataObject implements PermissionProvider {
 					->setMultiple(true)
 					->setSource(Group::get()->map()->toArray())
 					->setAttribute('data-placeholder', _t('SiteTree.GroupPlaceholder', 'Click to select group'))
-					->setDescription(_t('Poll.VISIBLEGROUPSDESCRIPTION', 'Groups for whom are polls visible.')));
+					->setDescription(_t('Poll.VISIBLEGROUPSDESCRIPTION', 'Groups for whom is poll visible.')));
 			$fields->addFieldToTab('Root.Visibility',
 				ListboxField::create('VisibleMembers',$this->fieldLabel('VisibleMembers'))
 					->setMultiple(true)
 					->setSource(Member::get()->map()->toArray())
 					->setAttribute('data-placeholder', _t('Poll.MEMBERPLACEHOLDER', 'Click to select member'))
-					->setDescription(_t('Poll.VISIBLEMEMBERSDESCRIPTION', 'Members for whom are polls visible.')));
-			$fields->addFieldToTab('Root.Visibility',new ReadonlyField('VisibilityNote',_t('Poll.VISIBILITYNOTE', 'Note'),_t('Poll.VISIBILITYNOTEDESCRIPTION', 'If there is none selected, polls will be visible for everyone.')));
+					->setDescription(_t('Poll.VISIBLEMEMBERSDESCRIPTION', 'Members for whom is poll visible.')));
+			$fields->addFieldToTab('Root.Visibility',new ReadonlyField('VisibilityNote',_t('Poll.VISIBILITYNOTE', 'Note'),_t('Poll.VISIBILITYNOTEDESCRIPTION', 'If there is none selected, poll will be visible for everyone.')));
 
 			$fields->fieldByName('Root.Visibility')->setTitle(_t('Poll.TABVISIBILITY', 'Visibility'));
 
