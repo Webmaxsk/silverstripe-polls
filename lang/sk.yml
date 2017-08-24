@@ -15,8 +15,8 @@ sk:
     ALLOWEDRESULTSMEMBERSDESCRIPTION: 'Členovia, pre ktorých sú výsledky hlasovania povolené.'
     ALLOWRESULTS: Povoliť výsledky hlasovania
     AVAILABILITY: Platnosť
-    AVAILABLEFROM: Platnosť od
-    AVAILABLETO: Platnosť do
+    AVAILABLEFROM: 'Platnosť od'
+    AVAILABLETO: 'Platnosť do'
     FROM: Od
     MEMBERPLACEHOLDER: 'Kliknite pre vybratie člena'
     NOANSWER: 'Žiadna odpoveď'
@@ -29,7 +29,7 @@ sk:
     PERMISSIONS_CATEGORY: 'Oprávnenia v anketách'
     PLURALNAME: Ankety
     SINGULARNAME: Anketa
-    SORTORDER: Poradie zoradenia
+    SORTORDER: 'Poradie zoradenia'
     STATUS: 'Zobraziť anketu'
     TABVISIBILITY: Viditeľnosť
     TABVOTINGRESULTS: 'Výsledky hlasovania'
