@@ -19,6 +19,8 @@ class Poll extends DataObject implements PermissionProvider {
 		'AllowResults' => 'Boolean',
 		'Title' => 'Varchar(100)',
 		'Options' => 'Text',
+		'AvailableFrom' => 'Date',
+		'AvailableTo' => 'Date',
 
 		'SortOrder' => 'Int'
 	);
@@ -46,6 +48,7 @@ class Poll extends DataObject implements PermissionProvider {
 
 	private static $summary_fields = array(
 		'Title',
+		'ColumnAvailability',
 		'Status',
 		'Active',
 		'AllowResults'
@@ -63,6 +66,9 @@ class Poll extends DataObject implements PermissionProvider {
 			$labels['AllowResults'] = _t('Poll.ALLOWRESULTS', 'Show results');
 			$labels['Title'] = _t('Poll.TITLE', 'Title');
 			$labels['Options'] = _t('Poll.OPTIONS', 'Options');
+			$labels['AvailableFrom'] = _t('Poll.AVAILABLEFROM', 'Available from');
+			$labels['AvailableTo'] = _t('Poll.AVAILABLETO', 'Available to');
+			$labels['ColumnAvailability'] = _t('Poll.AVAILABILITY', 'Availability');
 			$labels['SortOrder'] = _t('Poll.SORTORDER', 'Sort order');
 			$labels['Groups.ID'] = _t('Group.SINGULARNAME', 'Group');
 			$labels['Members.ID'] = _t('Member.SINGULARNAME', 'Member');
@@ -76,6 +82,19 @@ class Poll extends DataObject implements PermissionProvider {
 		}
 
 		return self::$_cache_field_labels[$cacheKey];
+	}
+
+	public function ColumnAvailability() {
+		$availability = "-";
+
+		if ($this->AvailableFrom && $this->AvailableTo)
+			$availability = $this->dbObject('AvailableFrom')->Nice() . ' - ' . $this->dbObject('AvailableTo')->Nice();
+		elseif ($this->AvailableFrom)
+			$availability =  _t('Poll.FROM', 'From') . ' ' . $this->dbObject('AvailableFrom')->Nice();
+		elseif ($this->AvailableTo)
+			$availability = _t('Poll.TO', 'To') . ' ' . $this->dbObject('AvailableTo')->Nice();
+
+		return $availability;
 	}
 
 	public function onBeforeDelete() {
@@ -101,14 +120,23 @@ class Poll extends DataObject implements PermissionProvider {
 			$Status = $fields->dataFieldByName('Status');
 			$Active = $fields->dataFieldByName('Active');
 			$AllowResults = $fields->dataFieldByName('AllowResults');
+			$AvailableFrom = $fields->dataFieldByName('AvailableFrom')->setTitle(null);
+			$AvailableTo = $fields->dataFieldByName('AvailableTo')->setTitle(null);
 
 			$fields->removeByName('Status');
 			$fields->removeByName('Active');
 			$fields->removeByName('AllowResults');
+			$fields->removeByName('AvailableFrom');
+			$fields->removeByName('AvailableTo');
+
+			$fields->addFieldToTab('Root.Main',FieldGroup::create(
+				$AvailableFrom,$AvailableTo
+			)->setTitle(_t('Poll.AVAILABILITY', 'Availability')));
 
 			$fields->addFieldToTab('Root.Main',FieldGroup::create(
 				$Status,$Active,$AllowResults
 			)->setTitle(_t('Poll.CONFIGURATION', 'Configuration')));
+
 
 			$fields->addFieldToTab('Root.Visibility',
 				ListboxField::create('Groups',$this->fieldLabel('Groups'))
@@ -134,7 +162,7 @@ class Poll extends DataObject implements PermissionProvider {
 	}
 
 	public function getCMSValidator() {
-		$requiredFields = new RequiredFields(
+		$requiredFields = new Poll_Validator(
 			'Title', 'Options'
 		);
 
@@ -236,13 +264,19 @@ class Poll extends DataObject implements PermissionProvider {
 		return ((($groups = $this->Groups()) && ($members = $this->Members()) && !$groups->exists() && !$members->exists()) || ($groups->exists() && $member->inGroups($groups)) || ($members->exists() && $members->find('ID',$member->ID)));
 	}
 
-	private function isPollActiveOrMemberVoted($member) {
-		return ($this->Active || PollSubmission::get()->filter(array('PollID'=>$this->ID, 'MemberID'=>$member->ID))->limit(1)->first());
+	public function isPollActive() {
+		return ($this->Active
+			&& (!$this->AvailableFrom || $this->AvailableFrom <= date('Y-m-d'))
+			&& (!$this->AvailableTo || $this->AvailableTo >= date('Y-m-d')));
+	}
+
+	public function memberVoted($member) {
+		return ($submission = PollSubmission::get()->filter(array('PollID'=>$this->ID, 'MemberID'=>$member->ID))->limit(1)->first()) && $submission->exists();
 	}
 
 	private function canViewPoll($member) {
 		return Permission::checkMember($member, self::VIEW_PERMISSION)
-		|| ($this->isPollVisible() && $this->isMemberInVisibleRelationsOrTheyAreEmpty($member) && $this->isPollActiveOrMemberVoted($member));
+		|| ($this->isPollVisible() && $this->isMemberInVisibleRelationsOrTheyAreEmpty($member) && ($this->isPollActive() || $this->memberVoted($member)));
 	}
 
 	public function canView($member = null) {

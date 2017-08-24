@@ -12,8 +12,12 @@ sk:
   Poll:
     ACTIVE: Aktívna
     ALLOWRESULTS: Zobraziť výsledky
+    AVAILABILITY: Platnosť
+    AVAILABLEFROM: Platnosť od
+    AVAILABLETO: Platnosť do
     CONFIGURATION: Konfigurácia
     GROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sa anketa zobrazuje.'
+    FROM: Od
     MEMBERSDESCRIPTION: 'Členovia, pre ktorých sa anketa zobrazuje.'
     NOANSWER: 'Žiadna odpoveď'
     NOTE: Poznámka
@@ -31,6 +35,7 @@ sk:
     STATUS: Viditeľná
     TABVISIBILITY: Viditeľnosť
     TITLE: Nadpis
+    TO: Do
     MemberPlaceholder: 'Kliknite pre vybratie člena'
   PollAdmin:
     MENUTITLE: Ankety
@@ -52,3 +57,5 @@ sk:
     POLLSTITLE: Ankety
     POLLTITLE: Anketa
     VOTE: Hlasovať
+  Poll_Validator:
+    INCORRECTDATERANGE: 'Nesprávne poradie dátumov'

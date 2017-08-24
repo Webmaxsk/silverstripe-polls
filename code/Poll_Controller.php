@@ -68,7 +68,7 @@ class Poll_Controller extends Page_Controller {
 	}
 
 	public function PollForm() {
-		if (!$this->Poll->Active || (($submission = PollSubmission::get()->filter(array('PollID'=>$this->Poll->ID,'MemberID'=>Member::currentUserID()))->limit(1)->first()) && $submission->exists()))
+		if (!$this->Poll->isPollActive() || $this->Poll->memberVoted(Member::currentUser()))
 			return false;
 
 		$fields = $this->Poll->getFrontEndFields();

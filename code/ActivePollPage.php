@@ -21,7 +21,9 @@ class ActivePollPage_Controller extends Page_Controller {
 
 		$widgetcontrollers = new ArrayList();
 
-		$widgetItems = PollWidget::get()->filter(array("Enabled"=>1,"Poll.Active"=>1));
+		$widgetItems = PollWidget::get()->filter(array("Enabled"=>1,"Poll.Active"=>1))->filterByCallback(function($item, $list) {
+			return $item->Poll()->isPollActive();
+		});
 
 		$pollWidgetsIDs = array();
 
