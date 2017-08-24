@@ -91,8 +91,13 @@ class PollSubmission extends DataObject implements PermissionProvider {
 			);
 	}
 
+	private function isOwner($member = null) {
+		return ($member || ($member = Member::currentUser())) && $member->ID == $this->MemberID;
+	}
+
 	public function canView($member = null) {
-		return Permission::checkMember($member, self::VIEW_PERMISSION);
+		return Permission::checkMember($member, self::VIEW_PERMISSION)
+			|| $this->isOwner();
 	}
 
 	public function canEdit($member = null) {
