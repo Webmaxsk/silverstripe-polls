@@ -1,14 +1,14 @@
 sk:
   ActivePollPage:
     DESCRIPTION: 'Zobrazí všetky aktívne ankety (widgety).'
+    NOPOLLS: 'Žiadne ankety&hellip;'
     PLURALNAME: 'Aktívna anketa'
     SINGULARNAME: 'Aktívne ankety'
-    NOPOLLS: 'Žiadne ankety&hellip;'
   ArchivedPollPage:
     DESCRIPTION: 'Zobrazí všetky ukončené ankety (widgety).'
+    NOPOLLS: 'Žiadne ankety&hellip;'
     PLURALNAME: 'Ukončená anketa'
     SINGULARNAME: 'Ukončené ankety'
-    NOPOLLS: 'Žiadne ankety&hellip;'
   Poll:
     ACTIVE: Aktívna
     ALLOWRESULTS: Zobraziť výsledky
@@ -16,12 +16,9 @@ sk:
     AVAILABLEFROM: Platnosť od
     AVAILABLETO: Platnosť do
     CONFIGURATION: Konfigurácia
-    VISIBLEGROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sa anketa zobrazuje.'
     FROM: Od
-    VISIBLEMEMBERSDESCRIPTION: 'Členovia, pre ktorých sa anketa zobrazuje.'
+    MEMBERPLACEHOLDER: 'Kliknite pre vybratie člena'
     NOANSWER: 'Žiadna odpoveď'
-    NOTE: Poznámka
-    NOTEDESCRIPTION: 'Ak nie je nič vybraté, anketa sa zobrazuje pre všetkých členov.'
     NUMBEROFVOTES: 'Počet hlasujúcich'
     OPTIONS: Možnosti
     PERMISSION_CREATE: 'Vytvoriť anketu'
@@ -30,24 +27,27 @@ sk:
     PERMISSION_VIEW: 'Zobraziť anketu'
     PERMISSIONS_CATEGORY: 'Oprávnenia v anketách'
     PLURALNAME: Ankety
-    SORTORDER: Poradie zoradenia
     SINGULARNAME: Anketa
+    SORTORDER: Poradie zoradenia
     STATUS: Viditeľná
     TABVISIBILITY: Viditeľnosť
     TITLE: Nadpis
     TO: Do
-    MemberPlaceholder: 'Kliknite pre vybratie člena'
+    VISIBILITYNOTE: Poznámka
+    VISIBILITYNOTEDESCRIPTION: 'Ak nie je nič vybraté, anketa sa zobrazuje pre všetkých členov.'
+    VISIBLEGROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sa anketa zobrazuje.'
+    VISIBLEMEMBERSDESCRIPTION: 'Členovia, pre ktorých sa anketa zobrazuje.'
   PollAdmin:
     MENUTITLE: Ankety
   PollSubmission:
     OPTION: Odpoveď
-    PLURALNAME: Hodnotenia
-    SINGULARNAME: Hodnotenie
     PERMISSION_DELETE: 'Vymazať hodnotenie'
     PERMISSION_VIEW: 'Zobraziť hodnotenie'
-    Poll:
-      STATUS: 'Viditeľná anketa'
+    PLURALNAME: Hodnotenia
+    POLL:
       ACTIVE: 'Aktívna anketa'
+      STATUS: 'Viditeľná anketa'
+    SINGULARNAME: Hodnotenie
   PollWidget:
     CMSTITLE: 'Anketa'
     DESCRIPTION: 'Zobrazí anketu.'

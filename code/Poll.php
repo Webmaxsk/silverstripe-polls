@@ -148,9 +148,9 @@ class Poll extends DataObject implements PermissionProvider {
 				ListboxField::create('VisibleMembers',$this->fieldLabel('VisibleMembers'))
 					->setMultiple(true)
 					->setSource(Member::get()->map()->toArray())
-					->setAttribute('data-placeholder', _t('Poll.MemberPlaceholder', 'Click to select member'))
+					->setAttribute('data-placeholder', _t('Poll.MEMBERPLACEHOLDER', 'Click to select member'))
 					->setDescription(_t('Poll.VISIBLEMEMBERSDESCRIPTION', 'Members for whom are polls visible.')));
-			$fields->addFieldToTab('Root.Visibility',new ReadonlyField('Note',_t('Poll.NOTE', 'Note'),_t('Poll.NOTEDESCRIPTION', 'If there is none selected, polls will be visible for everyone.')));
+			$fields->addFieldToTab('Root.Visibility',new ReadonlyField('VisibilityNote',_t('Poll.VISIBILITYNOTE', 'Note'),_t('Poll.VISIBILITYNOTEDESCRIPTION', 'If there is none selected, polls will be visible for everyone.')));
 
 			$fields->fieldByName('Root.Visibility')->setTitle(_t('Poll.TABVISIBILITY', 'Visibility'));
 
