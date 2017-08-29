@@ -122,6 +122,10 @@ class Poll extends DataObject implements PermissionProvider {
 	public function onBeforeDelete() {
 		parent::onBeforeDelete();
 
+		$relevantPollSubmissions = PollSubmission::get()->filter('PollID',$this->ID);
+		foreach ($relevantPollSubmissions as $pollSubmission)
+			$pollSubmission->delete();
+
 		if (class_exists('Widget')) {
 			$relevantWidgets = PollWidget::get()->filter('PollID',$this->ID);
 			foreach ($relevantWidgets as $widget)
