@@ -2,13 +2,13 @@ sk:
   ActivePollPage:
     DESCRIPTION: 'Zobrazí všetky aktívne ankety (widgety).'
     NOPOLLS: 'Žiadne ankety&hellip;'
-    PLURALNAME: 'Aktívna anketa'
-    SINGULARNAME: 'Aktívne ankety'
+    PLURALNAME: 'Stránky aktívnych ankiet'
+    SINGULARNAME: 'Stránka aktívnych ankiet'
   ArchivedPollPage:
     DESCRIPTION: 'Zobrazí všetky ukončené ankety (widgety).'
     NOPOLLS: 'Žiadne ankety&hellip;'
-    PLURALNAME: 'Ukončená anketa'
-    SINGULARNAME: 'Ukončené ankety'
+    PLURALNAME: 'Stránky ukončených ankiet'
+    SINGULARNAME: 'Stránka ukončených ankiet'
   Poll:
     ACTIVE: 'Povoliť hlasovanie'
     ALLOWEDRESULTSGROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sú výsledky hlasovania povolené.'
