@@ -1,4 +1,7 @@
 <div class="content">
+	<% if Content %>
+		<div class="typography">$Content</div>
+	<% end_if %>
 	<% if Widgets %>
 		<% loop Widgets %>
 			$WidgetHolder
