@@ -13,7 +13,7 @@ sk:
     ACTIVE: 'Povoliť hlasovanie'
     ALLOWEDRESULTSGROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sú výsledky hlasovania povolené.'
     ALLOWEDRESULTSMEMBERSDESCRIPTION: 'Členovia, pre ktorých sú výsledky hlasovania povolené.'
-    ALLOWRESULTS: Povoliť výsledky hlasovania
+    ALLOWRESULTS: 'Povoliť výsledky hlasovania'
     AVAILABILITY: Platnosť
     AVAILABLEFROM: 'Platnosť od'
     AVAILABLETO: 'Platnosť do'
