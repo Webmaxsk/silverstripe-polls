@@ -9,7 +9,7 @@ class PollsMemberExtension extends DataExtension {
 	public function updateFieldLabels(&$labels) {
 		$field_labels = Config::inst()->get($this->class, 'field_labels');
 
-		$field_labels['PollSubmissions'] = _t('PollSubmission.PLURALNAME', 'Submissions');
+		$field_labels['PollSubmissions'] = _t('Member.POLLSUBMISSIONTAB', 'Polls submissions');
 
 		if ($field_labels)
 			$labels = array_merge($labels, $field_labels);

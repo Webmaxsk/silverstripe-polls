@@ -9,6 +9,8 @@ sk:
     NOPOLLS: 'Žiadne ankety&hellip;'
     PLURALNAME: 'Stránky ukončených ankiet'
     SINGULARNAME: 'Stránka ukončených ankiet'
+  Member:
+    POLLSUBMISSIONTAB: 'Hodnotenia ankiet'
   Poll:
     ACTIVE: 'Povoliť hlasovanie'
     ALLOWEDRESULTSGROUPSDESCRIPTION: 'Skupiny používateľov, pre ktoré sú výsledky hlasovania povolené.'
