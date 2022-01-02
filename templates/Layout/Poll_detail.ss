@@ -20,9 +20,13 @@
 						$Results
 					<% end_if %>
 				<% else_if CurrentUser.getMySubmissions($ID) %>
-					<% loop CurrentUser.getMySubmissions($ID) %>
-						<li>$Option</li>
-					<% end_loop %>
+					<% if EnableSelect %>
+						<% loop CurrentUser.getMySubmissions($ID) %>
+							<li>$Option</li>
+						<% end_loop %>
+					<% else %>
+						$Results
+					<% end_if %>
 				<% else %>
 					<li><%t Poll.NOANSWER "No answer" %></li>
 				<% end_if %>

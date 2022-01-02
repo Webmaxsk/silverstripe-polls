@@ -315,7 +315,7 @@ class Poll extends DataObject implements PermissionProvider {
 			return new ArrayData(array('Total' => $memberSubmissionsCount, 'Results' => $results));
 		}
 
-		return $options;
+		return nl2br($options);
 	}
 
 	public function getName() {
