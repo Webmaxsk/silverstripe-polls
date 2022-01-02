@@ -82,10 +82,10 @@ class Poll extends DataObject implements PermissionProvider {
 			$labels['AvailableTo'] = _t('Poll.AVAILABLETO', 'Available to');
 			$labels['ColumnAvailability'] = _t('Poll.AVAILABILITY', 'Availability');
 			$labels['SortOrder'] = _t('Poll.SORTORDER', 'Sort order');
-			$labels['VisibleGroups.ID'] = _t('Group.SINGULARNAME', 'Group');
-			$labels['VisibleMembers.ID'] = _t('Member.SINGULARNAME', 'Member');
-			$labels['AllowedResultsGroups.ID'] = _t('Group.SINGULARNAME', 'Group');
-			$labels['AllowedResultsMembers.ID'] = _t('Member.SINGULARNAME', 'Member');
+			$labels['VisibleGroups.ID'] = _t('Group.SINGULARNAME', 'Group') . ' ('. _t('Poll.TABVISIBILITY', 'Visibility') .')';
+			$labels['VisibleMembers.ID'] = _t('Member.SINGULARNAME', 'Member') . ' ('. _t('Poll.TABVISIBILITY', 'Visibility') .')';
+			$labels['AllowedResultsGroups.ID'] = _t('Group.SINGULARNAME', 'Group') . ' ('. _t('Poll.TABVOTINGRESULTS', 'Voting results') .')';
+			$labels['AllowedResultsMembers.ID'] = _t('Member.SINGULARNAME', 'Member') . ' ('. _t('Poll.TABVOTINGRESULTS', 'Voting results') .')';
 
 			if($includerelations) {
 				$labels['VisibleGroups'] = _t('Group.PLURALNAME', 'Groups');
