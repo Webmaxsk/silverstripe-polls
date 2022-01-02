@@ -18,7 +18,8 @@ class Poll_Validator extends RequiredFields {
 			$my_validator = false;
 		}
 
-		if (isset($data['EnableMultiselect']) && $data['EnableMultiselect']
+		if (isset($data['EnableSelect']) && $data['EnableSelect']
+		&& isset($data['EnableMultiselect']) && $data['EnableMultiselect']
 		&& isset($data['Options']) && ($currentOptions = trim($data['Options']))
 		&& isset($data['MinOptionsCount']) && isset($data['MaxOptionsCount'])) {
 			$minOptionsCount = $data['MinOptionsCount'];

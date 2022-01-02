@@ -19,8 +19,10 @@ sk:
     AVAILABILITY: Platnosť
     AVAILABLEFROM: 'Platnosť od'
     AVAILABLETO: 'Platnosť do'
+    ENABLESELECT: 'Povoliť výber možností'
     ENABLEMULTISELECT: 'Povoliť výber viacerých možností'
     FROM: Od
+    HEADLINE: Nadpis
     MINOPTIONSCOUNT: 'Minimálny počet'
     MAXOPTIONSCOUNT: 'Maximálny počet'
     MEMBERPLACEHOLDER: 'Kliknite pre vybratie člena'
@@ -37,9 +39,11 @@ sk:
     SINGULARNAME: Anketa
     SORTORDER: 'Poradie zoradenia'
     STATUS: 'Zobraziť anketu'
+    SUBMITBUTTONTEXT: 'Text na tlačidle ODOSLAŤ'
+    TABSETTINGS: Nastavenia
     TABVISIBILITY: Viditeľnosť
     TABVOTINGRESULTS: 'Výsledky hlasovania'
-    TITLE: Nadpis
+    TITLE: Názov
     TO: Do
     VISIBILITYNOTE: Poznámka
     VISIBILITYNOTEDESCRIPTION: 'Ak nie je nič vybraté, anketa sa zobrazuje pre všetkých členov.'
@@ -62,9 +66,12 @@ sk:
     CMSTITLE: 'Anketa'
     DESCRIPTION: 'Zobrazí anketu.'
     TITLE: 'Anketa'
-  Poll_Controller:
+  PollsPage:
+    DESCRIPTION: 'Zobrazí všetky ankety.'
     NOPOLLS: 'Žiadne ankety&hellip;'
-    POLLSTITLE: Ankety
+    PLURALNAME: 'Stránky ankiet'
+    SINGULARNAME: 'Stránka ankiet'
+  Poll_Controller:
     POLLTITLE: Anketa
     VOTE: Hlasovať
   Poll_FrontEndValidator:

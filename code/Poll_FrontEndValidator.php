@@ -6,7 +6,7 @@ class Poll_FrontEndValidator extends RequiredFields {
 		$my_validator = true;
 		$parent_validator = true;
 
-		if (($ID = $this->form->controller->request->param('ID')) && ($poll = DataObject::get_by_id('Poll', $ID)) && $poll->exists() && $poll->EnableMultiselect) {
+		if (($ID = $this->form->controller->request->param('ID')) && ($poll = DataObject::get_by_id('Poll', $ID)) && $poll->exists() && $poll->EnableSelect && $poll->EnableMultiselect) {
 			$currentOptionsCount = isset($data['Option']) && ($currentOptions = $data['Option']) ? count(explode(',', $currentOptions)) : 0;
 
 			if ($currentOptionsCount < $poll->MinOptionsCount
@@ -20,7 +20,6 @@ class Poll_FrontEndValidator extends RequiredFields {
 				$my_validator = false;
 			}
 		}
-
 
 		$parent_validator = parent::php($data);
 

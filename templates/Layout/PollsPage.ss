@@ -1,11 +1,12 @@
 <div class="content">
+	<% if Content %>
+		<div class="typography">$Content</div>
+	<% end_if %>
 	<% if PollControllers %>
 		<% loop PollControllers %>
 			$PollDetail
 		<% end_loop %>
-	<% else_if Poll %>
-		$PollDetail
 	<% else %>
-		<p><%t Poll_Controller.NOPOLLS 'There are no polls' %></p>
+		<p><%t PollsPage.NOPOLLS 'There are no polls' %></p>
 	<% end_if %>
 </div>
